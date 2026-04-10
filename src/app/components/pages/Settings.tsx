@@ -6,16 +6,16 @@ import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Switch } from '../ui/switch';
-import { 
-  Settings as SettingsIcon, 
-  User, 
-  Lock, 
-  Bell, 
+import {
+  Settings as SettingsIcon,
+  User,
+  Lock,
+  Bell,
   Download,
   Shield,
   Moon,
   Eye,
-  EyeOff
+  EyeOff,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -137,10 +137,7 @@ export const Settings = () => {
                 </div>
                 <p className="text-sm text-amber-600">Hide diary with fake cover when enabled</p>
               </div>
-              <Switch
-                checked={enablePrivateMode}
-                onCheckedChange={setEnablePrivateMode}
-              />
+              <Switch checked={enablePrivateMode} onCheckedChange={setEnablePrivateMode} />
             </div>
 
             {/* Mark Entries Private */}
@@ -169,10 +166,7 @@ export const Settings = () => {
                 <h4 className="text-amber-900 mb-1">Daily Reminder</h4>
                 <p className="text-sm text-amber-600">Get reminded to write every day</p>
               </div>
-              <Switch
-                checked={enableNotifications}
-                onCheckedChange={setEnableNotifications}
-              />
+              <Switch checked={enableNotifications} onCheckedChange={setEnableNotifications} />
             </div>
 
             {enableNotifications && (
@@ -207,10 +201,7 @@ export const Settings = () => {
                 <h4 className="text-amber-900 mb-1">Dark Mode</h4>
                 <p className="text-sm text-amber-600">Switch to dark theme for night writing</p>
               </div>
-              <Switch
-                checked={enableDarkMode}
-                onCheckedChange={setEnableDarkMode}
-              />
+              <Switch checked={enableDarkMode} onCheckedChange={setEnableDarkMode} />
             </div>
           </div>
         </Card>
@@ -228,7 +219,7 @@ export const Settings = () => {
                 <h4 className="text-amber-900 mb-1">Export as PDF</h4>
                 <p className="text-sm text-amber-600">Download all your entries as a PDF</p>
               </div>
-              <Button 
+              <Button
                 onClick={handleExportPDF}
                 className="bg-gradient-to-r from-amber-500 to-orange-500 text-white"
               >
@@ -254,7 +245,7 @@ export const Settings = () => {
           <Button variant="outline" className="border-amber-300 text-amber-700">
             Reset to Defaults
           </Button>
-          <Button 
+          <Button
             onClick={handleSaveSettings}
             className="bg-gradient-to-r from-amber-500 to-orange-500 text-white"
           >
@@ -264,7 +255,10 @@ export const Settings = () => {
 
         {/* Account Info */}
         <div className="mt-8 text-center text-sm text-amber-600">
-          <p>Member since {new Date(joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}</p>
+          <p>
+            Member since{' '}
+            {new Date(joinDate).toLocaleDateString('en-US', { month: 'long', year: 'numeric' })}
+          </p>
           <p>{daysSinceJoined} days of journaling</p>
         </div>
       </motion.div>

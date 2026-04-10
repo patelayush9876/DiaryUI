@@ -16,7 +16,7 @@ export const MemoryFlashback = () => {
     const oneYearAgo = new Date(now.getFullYear() - 1, now.getMonth(), now.getDate());
     const oneMonthAgo = new Date(now.getFullYear(), now.getMonth() - 1, now.getDate());
 
-    const oldEntries = entries.filter(entry => {
+    const oldEntries = entries.filter((entry) => {
       const entryDate = new Date(entry.date);
       return entryDate < oneMonthAgo;
     });
@@ -66,9 +66,7 @@ export const MemoryFlashback = () => {
 
           <Card className="p-12 text-center bg-white/80 backdrop-blur-sm border-amber-200">
             <Sparkles className="w-16 h-16 mx-auto mb-4 text-amber-400 opacity-50" />
-            <h3 className="text-2xl font-serif text-amber-900 mb-2">
-              No memories yet
-            </h3>
+            <h3 className="text-2xl font-serif text-amber-900 mb-2">No memories yet</h3>
             <p className="text-amber-700 mb-6">
               Keep writing! Your memories will appear here as time goes by.
             </p>
@@ -142,7 +140,7 @@ export const MemoryFlashback = () => {
                         weekday: 'long',
                         month: 'long',
                         day: 'numeric',
-                        year: 'numeric'
+                        year: 'numeric',
                       })}
                     </motion.p>
                   </div>
@@ -156,9 +154,7 @@ export const MemoryFlashback = () => {
                   >
                     <div className="flex items-center gap-3 mb-4 pb-4 border-b border-purple-200">
                       <Calendar className="w-5 h-5 text-purple-600" />
-                      <h3 className="text-2xl font-serif text-purple-900">
-                        {currentMemory.title}
-                      </h3>
+                      <h3 className="text-2xl font-serif text-purple-900">{currentMemory.title}</h3>
                     </div>
                     <div className="prose prose-lg max-w-none">
                       <p className="text-purple-900 leading-relaxed whitespace-pre-wrap">
@@ -195,9 +191,7 @@ export const MemoryFlashback = () => {
                       <Heart className="w-4 h-4 mr-2" />
                       React
                     </Button>
-                    <Button
-                      className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white"
-                    >
+                    <Button className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white">
                       <Sparkles className="w-4 h-4 mr-2" />
                       Reflect on This
                     </Button>

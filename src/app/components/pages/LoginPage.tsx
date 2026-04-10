@@ -45,7 +45,9 @@ export const LoginPage = () => {
 
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <Label htmlFor="email" className="text-amber-900">Email</Label>
+          <Label htmlFor="email" className="text-amber-900">
+            Email
+          </Label>
           <div className="relative mt-1">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
             <Input
@@ -60,7 +62,9 @@ export const LoginPage = () => {
         </div>
 
         <div>
-          <Label htmlFor="password" className="text-amber-900">Password</Label>
+          <Label htmlFor="password" className="text-amber-900">
+            Password
+          </Label>
           <div className="relative mt-1">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
             <Input
@@ -108,7 +112,10 @@ export const LoginPage = () => {
       <div className="mt-4 pt-4 border-t border-amber-200">
         <p className="text-center text-xs text-amber-600">
           Administrator?{' '}
-          <Link to="/admin/login" className="text-amber-700 hover:text-amber-900 underline font-medium">
+          <Link
+            to="/admin/login"
+            className="text-amber-700 hover:text-amber-900 underline font-medium"
+          >
             Access Admin Portal
           </Link>
         </p>

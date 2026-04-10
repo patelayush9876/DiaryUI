@@ -13,7 +13,8 @@ const themes = [
     description: 'Classic leather-bound journal aesthetic',
     preview: 'from-amber-50 via-orange-50 to-yellow-50',
     accent: 'from-amber-400 to-orange-500',
-    image: 'https://images.unsplash.com/photo-1762113246719-1a6adc837209?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwZGlhcnklMjBsZWF0aGVyJTIwYm9va3xlbnwxfHx8fDE3NzU4NDAyMjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1762113246719-1a6adc837209?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHx2aW50YWdlJTIwZGlhcnklMjBsZWF0aGVyJTIwYm9va3xlbnwxfHx8fDE3NzU4NDAyMjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'dark',
@@ -21,7 +22,8 @@ const themes = [
     description: 'Midnight writing with deep navy and charcoal',
     preview: 'from-slate-900 via-purple-900 to-indigo-900',
     accent: 'from-purple-500 to-pink-500',
-    image: 'https://images.unsplash.com/photo-1559235239-1090187395b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwcmVhZGluZyUyMG5vb2slMjBib29rc3xlbnwxfHx8fDE3NzU4NDAyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1559235239-1090187395b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwcmVhZGluZyUyMG5vb2slMjBib29rc3xlbnwxfHx8fDE3NzU4NDAyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'minimal',
@@ -29,7 +31,8 @@ const themes = [
     description: 'Pure and simple, distraction-free writing',
     preview: 'from-white via-gray-50 to-slate-50',
     accent: 'from-gray-600 to-gray-800',
-    image: 'https://images.unsplash.com/photo-1765648496288-e1760f547711?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWxtJTIwd3JpdGluZyUyMHdvcmtzcGFjZSUyMHBsYW50c3xlbnwxfHx8fDE3NzU4NDAyMjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1765648496288-e1760f547711?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjYWxtJTIwd3JpdGluZyUyMHdvcmtzcGFjZSUyMHBsYW50c3xlbnwxfHx8fDE3NzU4NDAyMjN8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'nature',
@@ -37,7 +40,8 @@ const themes = [
     description: 'Earthy greens and calming natural tones',
     preview: 'from-green-50 via-emerald-50 to-teal-50',
     accent: 'from-green-500 to-emerald-600',
-    image: 'https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'sunset',
@@ -45,7 +49,8 @@ const themes = [
     description: 'Warm pinks and oranges for evening reflections',
     preview: 'from-rose-100 via-pink-100 to-orange-100',
     accent: 'from-rose-400 to-orange-500',
-    image: 'https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080',
   },
   {
     id: 'ocean',
@@ -53,7 +58,8 @@ const themes = [
     description: 'Cool blues and aqua for peaceful writing',
     preview: 'from-cyan-50 via-blue-50 to-sky-50',
     accent: 'from-cyan-500 to-blue-600',
-    image: 'https://images.unsplash.com/photo-1559235239-1090187395b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwcmVhZGluZyUyMG5vb2slMjBib29rc3xlbnwxfHx8fDE3NzU4NDAyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
+    image:
+      'https://images.unsplash.com/photo-1559235239-1090187395b9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxjb3p5JTIwcmVhZGluZyUyMG5vb2slMjBib29rc3xlbnwxfHx8fDE3NzU4NDAyMjR8MA&ixlib=rb-4.1.0&q=80&w=1080',
   },
 ];
 
@@ -133,9 +139,7 @@ export const Themes = () => {
               >
                 {/* Preview image */}
                 <div className="relative h-48 overflow-hidden">
-                  <div 
-                    className={`absolute inset-0 bg-gradient-to-br ${theme.preview}`}
-                  />
+                  <div className={`absolute inset-0 bg-gradient-to-br ${theme.preview}`} />
                   <img
                     src={theme.image}
                     alt={theme.name}
@@ -177,7 +181,7 @@ export const Themes = () => {
               >
                 {/* Book spine effect */}
                 <div className="absolute left-2 top-4 bottom-4 w-1 bg-black/20 rounded-full" />
-                
+
                 {/* Check mark */}
                 {selectedCover === cover.id && (
                   <div className="absolute inset-0 flex items-center justify-center">
@@ -186,12 +190,10 @@ export const Themes = () => {
                     </div>
                   </div>
                 )}
-                
+
                 {/* Cover name */}
                 <div className="absolute bottom-2 left-2 right-2">
-                  <p className="text-white/90 text-xs text-center drop-shadow-lg">
-                    {cover.name}
-                  </p>
+                  <p className="text-white/90 text-xs text-center drop-shadow-lg">{cover.name}</p>
                 </div>
               </motion.button>
             ))}
@@ -206,10 +208,26 @@ export const Themes = () => {
               <h4 className="text-lg font-serif text-amber-800 mb-4">Font Styles</h4>
               <div className="space-y-3">
                 {[
-                  { name: 'Modern Sans', class: 'font-sans', sample: 'The quick brown fox jumps over the lazy dog.' },
-                  { name: 'Classic Serif', class: 'font-serif', sample: 'The quick brown fox jumps over the lazy dog.' },
-                  { name: 'Handwriting', class: 'font-handwriting', sample: 'The quick brown fox jumps over the lazy dog.' },
-                  { name: 'Typewriter', class: 'font-mono', sample: 'The quick brown fox jumps over the lazy dog.' },
+                  {
+                    name: 'Modern Sans',
+                    class: 'font-sans',
+                    sample: 'The quick brown fox jumps over the lazy dog.',
+                  },
+                  {
+                    name: 'Classic Serif',
+                    class: 'font-serif',
+                    sample: 'The quick brown fox jumps over the lazy dog.',
+                  },
+                  {
+                    name: 'Handwriting',
+                    class: 'font-handwriting',
+                    sample: 'The quick brown fox jumps over the lazy dog.',
+                  },
+                  {
+                    name: 'Typewriter',
+                    class: 'font-mono',
+                    sample: 'The quick brown fox jumps over the lazy dog.',
+                  },
                 ].map((font) => (
                   <div
                     key={font.name}

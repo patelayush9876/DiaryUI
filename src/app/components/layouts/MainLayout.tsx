@@ -1,15 +1,15 @@
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router';
 import { useDiary } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
-import { 
-  Book, 
-  Calendar, 
-  BarChart3, 
-  Palette, 
+import {
+  Book,
+  Calendar,
+  BarChart3,
+  Palette,
   Settings as SettingsIcon,
   LogOut,
   Sparkles,
-  Home
+  Home,
 } from 'lucide-react';
 import { Button } from '../ui/button';
 
@@ -76,7 +76,7 @@ export const MainLayout = () => {
             {navItems.map((item) => {
               const Icon = item.icon;
               const isActive = location.pathname === item.path;
-              
+
               return (
                 <button
                   key={item.path}

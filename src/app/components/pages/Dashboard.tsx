@@ -4,17 +4,17 @@ import { useDiary, Mood } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Button } from '../ui/button';
 import { Card } from '../ui/card';
-import { 
-  PenLine, 
-  Clock, 
-  Sparkles, 
+import {
+  PenLine,
+  Clock,
+  Sparkles,
   TrendingUp,
   Smile,
   Meh,
   Frown,
   Heart,
   Zap,
-  Cloud
+  Cloud,
 } from 'lucide-react';
 
 const moodIcons: Record<Mood, { icon: any; color: string; bg: string }> = {
@@ -41,7 +41,7 @@ export const Dashboard = () => {
   const getStreak = () => {
     // Calculate writing streak
     const today = new Date().toDateString();
-    const hasWrittenToday = entries.some(e => new Date(e.date).toDateString() === today);
+    const hasWrittenToday = entries.some((e) => new Date(e.date).toDateString() === today);
     return hasWrittenToday ? entries.length : entries.length > 0 ? entries.length - 1 : 0;
   };
 
@@ -69,7 +69,7 @@ export const Dashboard = () => {
             {(Object.keys(moodIcons) as Mood[]).map((mood) => {
               const { icon: Icon, color, bg } = moodIcons[mood];
               const isSelected = selectedMood === mood;
-              
+
               return (
                 <motion.button
                   key={mood}
@@ -83,7 +83,9 @@ export const Dashboard = () => {
                   }`}
                 >
                   <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : color}`} />
-                  <span className={`text-xs capitalize ${isSelected ? 'text-white' : 'text-gray-700'}`}>
+                  <span
+                    className={`text-xs capitalize ${isSelected ? 'text-white' : 'text-gray-700'}`}
+                  >
                     {mood}
                   </span>
                 </motion.button>
@@ -95,7 +97,7 @@ export const Dashboard = () => {
         {/* Quick Actions */}
         <div className="grid md:grid-cols-3 gap-4 mb-8">
           <motion.div whileHover={{ scale: 1.02 }}>
-            <Card 
+            <Card
               className="p-6 bg-gradient-to-br from-amber-400 to-orange-500 text-white cursor-pointer hover:shadow-xl transition-all"
               onClick={() => navigate('/write')}
             >
@@ -106,7 +108,7 @@ export const Dashboard = () => {
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.02 }}>
-            <Card 
+            <Card
               className="p-6 bg-gradient-to-br from-blue-400 to-purple-500 text-white cursor-pointer hover:shadow-xl transition-all"
               onClick={() => navigate('/memories')}
             >
@@ -117,7 +119,7 @@ export const Dashboard = () => {
           </motion.div>
 
           <motion.div whileHover={{ scale: 1.02 }}>
-            <Card 
+            <Card
               className="p-6 bg-gradient-to-br from-pink-400 to-rose-500 text-white cursor-pointer hover:shadow-xl transition-all"
               onClick={() => navigate('/analytics')}
             >
@@ -155,10 +157,12 @@ export const Dashboard = () => {
               <div>
                 <p className="text-amber-700 text-sm">This Month</p>
                 <p className="text-3xl font-serif text-amber-900">
-                  {entries.filter(e => {
-                    const entryMonth = new Date(e.date).getMonth();
-                    return entryMonth === new Date().getMonth();
-                  }).length}
+                  {
+                    entries.filter((e) => {
+                      const entryMonth = new Date(e.date).getMonth();
+                      return entryMonth === new Date().getMonth();
+                    }).length
+                  }
                 </p>
               </div>
               <Clock className="w-10 h-10 text-blue-400" />
@@ -173,7 +177,7 @@ export const Dashboard = () => {
             <div className="space-y-3">
               {recentEntries.map((entry) => {
                 const { icon: MoodIcon, color, bg } = moodIcons[entry.mood];
-                
+
                 return (
                   <motion.div
                     key={entry.id}
@@ -181,16 +185,18 @@ export const Dashboard = () => {
                     className="flex items-center gap-4 p-4 rounded-xl hover:bg-amber-50 transition-all cursor-pointer"
                     onClick={() => navigate('/calendar')}
                   >
-                    <div className={`w-10 h-10 ${bg} rounded-full flex items-center justify-center`}>
+                    <div
+                      className={`w-10 h-10 ${bg} rounded-full flex items-center justify-center`}
+                    >
                       <MoodIcon className={`w-5 h-5 ${color}`} />
                     </div>
                     <div className="flex-1">
                       <h4 className="font-serif text-amber-900">{entry.title || 'Untitled'}</h4>
                       <p className="text-sm text-amber-600">
-                        {new Date(entry.date).toLocaleDateString('en-US', { 
-                          month: 'long', 
+                        {new Date(entry.date).toLocaleDateString('en-US', {
+                          month: 'long',
                           day: 'numeric',
-                          year: 'numeric' 
+                          year: 'numeric',
                         })}
                       </p>
                     </div>
@@ -201,7 +207,7 @@ export const Dashboard = () => {
             {entries.length === 0 && (
               <div className="text-center py-8 text-amber-600">
                 <p className="mb-4">No entries yet. Start writing!</p>
-                <Button 
+                <Button
                   onClick={() => navigate('/write')}
                   className="bg-gradient-to-r from-amber-500 to-orange-500"
                 >

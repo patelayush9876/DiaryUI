@@ -1,35 +1,35 @@
-import { useState } from "react";
-import { useNavigate } from "react-router";
-import { Shield, Lock, Mail, Eye, EyeOff } from "lucide-react";
-import { Button } from "../../ui/button";
-import { Input } from "../../ui/input";
-import { Label } from "../../ui/label";
-import { Alert, AlertDescription } from "../../ui/alert";
-import { InputOTP, InputOTPGroup, InputOTPSlot } from "../../ui/input-otp";
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
+import { Shield, Lock, Mail, Eye, EyeOff } from 'lucide-react';
+import { Button } from '../../ui/button';
+import { Input } from '../../ui/input';
+import { Label } from '../../ui/label';
+import { Alert, AlertDescription } from '../../ui/alert';
+import { InputOTP, InputOTPGroup, InputOTPSlot } from '../../ui/input-otp';
 
 export function AdminLogin() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [show2FA, setShow2FA] = useState(false);
-  const [otp, setOtp] = useState("");
-  const [error, setError] = useState("");
+  const [otp, setOtp] = useState('');
+  const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError("");
+    setError('');
     setIsLoading(true);
 
     // Simulate authentication
     setTimeout(() => {
-      if (email === "admin@diary.com" && password === "admin123") {
+      if (email === 'admin@diary.com' && password === 'admin123') {
         // Show 2FA step
         setShow2FA(true);
         setIsLoading(false);
       } else {
-        setError("Invalid credentials. Please try again.");
+        setError('Invalid credentials. Please try again.');
         setIsLoading(false);
       }
     }, 800);
@@ -38,14 +38,14 @@ export function AdminLogin() {
   const handleVerifyOTP = () => {
     setIsLoading(true);
     setTimeout(() => {
-      if (otp === "123456") {
+      if (otp === '123456') {
         // Set auth token
-        localStorage.setItem("admin-auth", "true");
-        navigate("/admin");
+        localStorage.setItem('admin-auth', 'true');
+        navigate('/admin');
       } else {
-        setError("Invalid OTP code. Please try again.");
+        setError('Invalid OTP code. Please try again.');
         setIsLoading(false);
-        setOtp("");
+        setOtp('');
       }
     }, 800);
   };
@@ -92,7 +92,7 @@ export function AdminLogin() {
                   <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <Input
                     id="password"
-                    type={showPassword ? "text" : "password"}
+                    type={showPassword ? 'text' : 'password'}
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
@@ -104,11 +104,7 @@ export function AdminLogin() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                   >
-                    {showPassword ? (
-                      <EyeOff className="w-5 h-5" />
-                    ) : (
-                      <Eye className="w-5 h-5" />
-                    )}
+                    {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
                   </button>
                 </div>
               </div>
@@ -124,7 +120,7 @@ export function AdminLogin() {
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11"
                 disabled={isLoading}
               >
-                {isLoading ? "Authenticating..." : "Sign In"}
+                {isLoading ? 'Authenticating...' : 'Sign In'}
               </Button>
 
               {/* Demo Credentials */}
@@ -150,11 +146,7 @@ export function AdminLogin() {
               </div>
 
               <div className="flex justify-center">
-                <InputOTP
-                  maxLength={6}
-                  value={otp}
-                  onChange={(value) => setOtp(value)}
-                >
+                <InputOTP maxLength={6} value={otp} onChange={(value) => setOtp(value)}>
                   <InputOTPGroup>
                     <InputOTPSlot index={0} />
                     <InputOTPSlot index={1} />
@@ -178,14 +170,14 @@ export function AdminLogin() {
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11"
                   disabled={otp.length !== 6 || isLoading}
                 >
-                  {isLoading ? "Verifying..." : "Verify & Sign In"}
+                  {isLoading ? 'Verifying...' : 'Verify & Sign In'}
                 </Button>
 
                 <Button
                   onClick={() => {
                     setShow2FA(false);
-                    setOtp("");
-                    setError("");
+                    setOtp('');
+                    setError('');
                   }}
                   variant="ghost"
                   className="w-full text-slate-600"
@@ -204,10 +196,7 @@ export function AdminLogin() {
 
         {/* Back to User Portal */}
         <div className="text-center mt-3">
-          <a
-            href="/auth/login"
-            className="text-xs text-slate-500 hover:text-slate-300 underline"
-          >
+          <a href="/auth/login" className="text-xs text-slate-500 hover:text-slate-300 underline">
             Back to User Portal
           </a>
         </div>

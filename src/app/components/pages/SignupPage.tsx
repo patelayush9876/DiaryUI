@@ -49,7 +49,9 @@ export const SignupPage = () => {
 
       <form onSubmit={handleSignup} className="space-y-4">
         <div>
-          <Label htmlFor="name" className="text-amber-900">Full Name</Label>
+          <Label htmlFor="name" className="text-amber-900">
+            Full Name
+          </Label>
           <div className="relative mt-1">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
             <Input
@@ -64,7 +66,9 @@ export const SignupPage = () => {
         </div>
 
         <div>
-          <Label htmlFor="email" className="text-amber-900">Email</Label>
+          <Label htmlFor="email" className="text-amber-900">
+            Email
+          </Label>
           <div className="relative mt-1">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
             <Input
@@ -79,7 +83,9 @@ export const SignupPage = () => {
         </div>
 
         <div>
-          <Label htmlFor="password" className="text-amber-900">Password</Label>
+          <Label htmlFor="password" className="text-amber-900">
+            Password
+          </Label>
           <div className="relative mt-1">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
             <Input

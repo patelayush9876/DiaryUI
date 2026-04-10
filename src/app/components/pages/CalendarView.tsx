@@ -18,7 +18,7 @@ export const CalendarView = () => {
     const lastDay = new Date(year, month + 1, 0);
     const daysInMonth = lastDay.getDate();
     const startingDayOfWeek = firstDay.getDay();
-    
+
     return { daysInMonth, startingDayOfWeek, year, month };
   };
 
@@ -26,7 +26,7 @@ export const CalendarView = () => {
 
   const hasEntryOnDate = (day: number) => {
     const dateStr = new Date(year, month, day).toDateString();
-    return entries.find(e => new Date(e.date).toDateString() === dateStr);
+    return entries.find((e) => new Date(e.date).toDateString() === dateStr);
   };
 
   const previousMonth = () => {
@@ -38,13 +38,21 @@ export const CalendarView = () => {
   };
 
   const monthNames = [
-    'January', 'February', 'March', 'April', 'May', 'June',
-    'July', 'August', 'September', 'October', 'November', 'December'
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December',
   ];
 
-  const selectedEntryData = selectedEntry 
-    ? entries.find(e => e.id === selectedEntry)
-    : null;
+  const selectedEntryData = selectedEntry ? entries.find((e) => e.id === selectedEntry) : null;
 
   return (
     <div className="p-8">
@@ -89,7 +97,7 @@ export const CalendarView = () => {
 
               {/* Weekday headers */}
               <div className="grid grid-cols-7 gap-2 mb-2">
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map((day) => (
                   <div key={day} className="text-center text-sm text-amber-600 py-2">
                     {day}
                   </div>
@@ -107,7 +115,7 @@ export const CalendarView = () => {
                 {[...Array(daysInMonth)].map((_, i) => {
                   const day = i + 1;
                   const entry = hasEntryOnDate(day);
-                  const isToday = 
+                  const isToday =
                     new Date().toDateString() === new Date(year, month, day).toDateString();
 
                   return (
@@ -120,8 +128,8 @@ export const CalendarView = () => {
                         entry
                           ? 'bg-gradient-to-br from-amber-400 to-orange-500 text-white shadow-md hover:shadow-lg'
                           : isToday
-                          ? 'bg-amber-100 text-amber-900 border-2 border-amber-400'
-                          : 'hover:bg-amber-50 text-amber-700'
+                            ? 'bg-amber-100 text-amber-900 border-2 border-amber-400'
+                            : 'hover:bg-amber-50 text-amber-700'
                       }`}
                     >
                       {day}
@@ -151,10 +159,7 @@ export const CalendarView = () => {
           <div className="lg:col-span-1">
             <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200 sticky top-8">
               {selectedEntryData ? (
-                <motion.div
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                >
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
                   <h3 className="text-xl font-serif text-amber-900 mb-3">
                     {selectedEntryData.title}
                   </h3>
@@ -163,7 +168,7 @@ export const CalendarView = () => {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
-                      year: 'numeric'
+                      year: 'numeric',
                     })}
                   </p>
                   <div className="mb-4">
@@ -180,7 +185,7 @@ export const CalendarView = () => {
                     <div className="mt-4 pt-4 border-t border-amber-200">
                       <div className="flex items-center gap-2 flex-wrap">
                         <Tag className="w-4 h-4 text-amber-600" />
-                        {selectedEntryData.tags.map(tag => (
+                        {selectedEntryData.tags.map((tag) => (
                           <Badge key={tag} variant="outline" className="text-xs">
                             #{tag}
                           </Badge>
@@ -214,18 +219,14 @@ export const CalendarView = () => {
                         : 'hover:bg-amber-50 border-2 border-transparent'
                     }`}
                   >
-                    <h4 className="font-serif text-amber-900 text-sm mb-1">
-                      {entry.title}
-                    </h4>
+                    <h4 className="font-serif text-amber-900 text-sm mb-1">{entry.title}</h4>
                     <p className="text-xs text-amber-600">
                       {new Date(entry.date).toLocaleDateString()}
                     </p>
                   </motion.button>
                 ))}
                 {entries.length === 0 && (
-                  <p className="text-center text-amber-600 py-8">
-                    No entries yet
-                  </p>
+                  <p className="text-center text-amber-600 py-8">No entries yet</p>
                 )}
               </div>
             </Card>

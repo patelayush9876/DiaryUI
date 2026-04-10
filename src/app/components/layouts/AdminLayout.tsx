@@ -1,25 +1,19 @@
-import { Outlet, NavLink, useNavigate } from "react-router";
-import { 
-  LayoutDashboard, 
-  Users, 
-  Shield, 
-  LogOut,
-  Lock
-} from "lucide-react";
-import { Button } from "../ui/button";
-import { ProtectedAdminRoute } from "../admin/ProtectedAdminRoute";
+import { Outlet, NavLink, useNavigate } from 'react-router';
+import { LayoutDashboard, Users, Shield, LogOut, Lock } from 'lucide-react';
+import { Button } from '../ui/button';
+import { ProtectedAdminRoute } from '../admin/ProtectedAdminRoute';
 
 export function AdminLayout() {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("admin-auth");
-    navigate("/admin/login");
+    localStorage.removeItem('admin-auth');
+    navigate('/admin/login');
   };
 
   const navItems = [
-    { to: "/admin", icon: LayoutDashboard, label: "Dashboard", end: true },
-    { to: "/admin/users", icon: Users, label: "User Management" },
+    { to: '/admin', icon: LayoutDashboard, label: 'Dashboard', end: true },
+    { to: '/admin/users', icon: Users, label: 'User Management' },
   ];
 
   return (
@@ -47,9 +41,7 @@ export function AdminLayout() {
                 end={item.end}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-4 py-2.5 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-blue-50 text-blue-700"
-                      : "text-slate-600 hover:bg-slate-50"
+                    isActive ? 'bg-blue-50 text-blue-700' : 'text-slate-600 hover:bg-slate-50'
                   }`
                 }
               >

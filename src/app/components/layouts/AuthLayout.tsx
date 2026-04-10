@@ -13,10 +13,11 @@ export const AuthLayout = () => {
   return (
     <div className="min-h-screen relative overflow-hidden">
       {/* Background with blur effect */}
-      <div 
+      <div
         className="absolute inset-0 bg-cover bg-center"
         style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080)',
+          backgroundImage:
+            'url(https://images.unsplash.com/photo-1580567814278-64f290c71bf6?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3Nzg4Nzd8MHwxfHNlYXJjaHwxfHxqb3VybmFsJTIwbm90ZWJvb2slMjBkZXNrJTIwYWVzdGhldGljfGVufDF8fHx8MTc3NTg0MDIyM3ww&ixlib=rb-4.1.0&q=80&w=1080)',
         }}
       >
         <div className="absolute inset-0 backdrop-blur-md bg-black/30" />

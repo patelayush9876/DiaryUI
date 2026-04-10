@@ -1,6 +1,16 @@
-import { Users, UserPlus, Activity, TrendingUp } from "lucide-react";
-import { Card, CardContent, CardHeader, CardTitle } from "../../ui/card";
-import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Users, UserPlus, Activity, TrendingUp } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardTitle } from '../../ui/card';
+import {
+  LineChart,
+  Line,
+  AreaChart,
+  Area,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from 'recharts';
 
 // Mock data
 const statsData = {
@@ -11,64 +21,64 @@ const statsData = {
 };
 
 const signupTrendData = [
-  { date: "Jan", signups: 45 },
-  { date: "Feb", signups: 62 },
-  { date: "Mar", signups: 78 },
-  { date: "Apr", signups: 95 },
-  { date: "May", signups: 112 },
-  { date: "Jun", signups: 134 },
-  { date: "Jul", signups: 156 },
+  { date: 'Jan', signups: 45 },
+  { date: 'Feb', signups: 62 },
+  { date: 'Mar', signups: 78 },
+  { date: 'Apr', signups: 95 },
+  { date: 'May', signups: 112 },
+  { date: 'Jun', signups: 134 },
+  { date: 'Jul', signups: 156 },
 ];
 
 const activityData = [
-  { day: "Mon", active: 680 },
-  { day: "Tue", active: 720 },
-  { day: "Wed", active: 760 },
-  { day: "Thu", active: 810 },
-  { day: "Fri", active: 850 },
-  { day: "Sat", active: 920 },
-  { day: "Sun", active: 892 },
+  { day: 'Mon', active: 680 },
+  { day: 'Tue', active: 720 },
+  { day: 'Wed', active: 760 },
+  { day: 'Thu', active: 810 },
+  { day: 'Fri', active: 850 },
+  { day: 'Sat', active: 920 },
+  { day: 'Sun', active: 892 },
 ];
 
 export function AdminDashboard() {
   const statCards = [
     {
-      title: "Total Users",
+      title: 'Total Users',
       value: statsData.totalUsers.toLocaleString(),
       icon: Users,
-      change: "+12.5%",
-      changeType: "positive" as const,
-      color: "text-blue-600",
-      bgColor: "bg-blue-50",
+      change: '+12.5%',
+      changeType: 'positive' as const,
+      color: 'text-blue-600',
+      bgColor: 'bg-blue-50',
     },
     {
-      title: "Active Users",
+      title: 'Active Users',
       value: statsData.activeUsers.toLocaleString(),
       icon: Activity,
-      change: "+8.3%",
-      changeType: "positive" as const,
-      color: "text-green-600",
-      bgColor: "bg-green-50",
+      change: '+8.3%',
+      changeType: 'positive' as const,
+      color: 'text-green-600',
+      bgColor: 'bg-green-50',
     },
     {
-      title: "New Signups",
+      title: 'New Signups',
       value: statsData.newSignups.toLocaleString(),
-      subtitle: "This month",
+      subtitle: 'This month',
       icon: UserPlus,
-      change: "+18.2%",
-      changeType: "positive" as const,
-      color: "text-purple-600",
-      bgColor: "bg-purple-50",
+      change: '+18.2%',
+      changeType: 'positive' as const,
+      color: 'text-purple-600',
+      bgColor: 'bg-purple-50',
     },
     {
-      title: "Growth Rate",
+      title: 'Growth Rate',
       value: `${statsData.growthRate}%`,
-      subtitle: "Monthly average",
+      subtitle: 'Monthly average',
       icon: TrendingUp,
-      change: "+2.1%",
-      changeType: "positive" as const,
-      color: "text-orange-600",
-      bgColor: "bg-orange-50",
+      change: '+2.1%',
+      changeType: 'positive' as const,
+      color: 'text-orange-600',
+      bgColor: 'bg-orange-50',
     },
   ];
 
@@ -77,9 +87,7 @@ export function AdminDashboard() {
       {/* Header */}
       <div className="mb-8">
         <h1 className="text-3xl font-semibold text-slate-800 mb-2">Dashboard</h1>
-        <p className="text-slate-600">
-          Platform overview and key metrics
-        </p>
+        <p className="text-slate-600">Platform overview and key metrics</p>
       </div>
 
       {/* Stats Cards */}
@@ -90,16 +98,10 @@ export function AdminDashboard() {
               <div className="flex items-start justify-between">
                 <div>
                   <p className="text-sm text-slate-600 mb-1">{stat.title}</p>
-                  <p className="text-3xl font-semibold text-slate-800 mb-1">
-                    {stat.value}
-                  </p>
-                  {stat.subtitle && (
-                    <p className="text-xs text-slate-500">{stat.subtitle}</p>
-                  )}
+                  <p className="text-3xl font-semibold text-slate-800 mb-1">{stat.value}</p>
+                  {stat.subtitle && <p className="text-xs text-slate-500">{stat.subtitle}</p>}
                   <div className="flex items-center gap-1 mt-2">
-                    <span className="text-xs font-medium text-green-600">
-                      {stat.change}
-                    </span>
+                    <span className="text-xs font-medium text-green-600">{stat.change}</span>
                     <span className="text-xs text-slate-500">vs last period</span>
                   </div>
                 </div>
@@ -117,9 +119,7 @@ export function AdminDashboard() {
         {/* Signup Trend */}
         <Card className="border-slate-200">
           <CardHeader>
-            <CardTitle className="text-lg text-slate-800">
-              Monthly Signup Trend
-            </CardTitle>
+            <CardTitle className="text-lg text-slate-800">Monthly Signup Trend</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
@@ -131,17 +131,13 @@ export function AdminDashboard() {
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis 
-                  dataKey="date" 
-                  stroke="#64748b" 
-                  fontSize={12}
-                />
+                <XAxis dataKey="date" stroke="#64748b" fontSize={12} />
                 <YAxis stroke="#64748b" fontSize={12} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "8px",
+                    backgroundColor: '#fff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
                   }}
                 />
                 <Area
@@ -160,25 +156,19 @@ export function AdminDashboard() {
         {/* Active Users */}
         <Card className="border-slate-200">
           <CardHeader>
-            <CardTitle className="text-lg text-slate-800">
-              Active Users (Last 7 Days)
-            </CardTitle>
+            <CardTitle className="text-lg text-slate-800">Active Users (Last 7 Days)</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
               <LineChart data={activityData}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                <XAxis 
-                  dataKey="day" 
-                  stroke="#64748b" 
-                  fontSize={12}
-                />
+                <XAxis dataKey="day" stroke="#64748b" fontSize={12} />
                 <YAxis stroke="#64748b" fontSize={12} />
                 <Tooltip
                   contentStyle={{
-                    backgroundColor: "#fff",
-                    border: "1px solid #e2e8f0",
-                    borderRadius: "8px",
+                    backgroundColor: '#fff',
+                    border: '1px solid #e2e8f0',
+                    borderRadius: '8px',
                   }}
                 />
                 <Line
@@ -186,7 +176,7 @@ export function AdminDashboard() {
                   dataKey="active"
                   stroke="#10b981"
                   strokeWidth={3}
-                  dot={{ fill: "#10b981", strokeWidth: 2, r: 4 }}
+                  dot={{ fill: '#10b981', strokeWidth: 2, r: 4 }}
                   activeDot={{ r: 6 }}
                 />
               </LineChart>

@@ -102,7 +102,7 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
         name: 'Ayush',
         email: 'ayush@example.com',
         joinDate: '2024-01-15',
-        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ayush'
+        avatar: 'https://api.dicebear.com/7.x/avataaars/svg?seed=Ayush',
       };
       setUser(mockUser);
     }
@@ -125,11 +125,11 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const updateEntry = (id: string, updates: Partial<DiaryEntry>) => {
-    setEntries(entries.map(e => e.id === id ? { ...e, ...updates } : e));
+    setEntries(entries.map((e) => (e.id === id ? { ...e, ...updates } : e)));
   };
 
   const deleteEntry = (id: string) => {
-    setEntries(entries.filter(e => e.id !== id));
+    setEntries(entries.filter((e) => e.id !== id));
   };
 
   const login = (email: string, password: string) => {
@@ -138,7 +138,7 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
       name: email.split('@')[0],
       email,
       joinDate: new Date().toISOString().split('T')[0],
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${email}`,
     };
     setUser(mockUser);
   };
@@ -148,7 +148,7 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
       name,
       email,
       joinDate: new Date().toISOString().split('T')[0],
-      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`
+      avatar: `https://api.dicebear.com/7.x/avataaars/svg?seed=${name}`,
     };
     setUser(mockUser);
   };

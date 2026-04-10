@@ -3,7 +3,21 @@ import { useDiary, Mood } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Card } from '../ui/card';
 import { BarChart3, TrendingUp, Calendar, Smile, Activity, Lightbulb } from 'lucide-react';
-import { BarChart, Bar, LineChart, Line, PieChart, Pie, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 export const Analytics = () => {
   const { entries } = useDiary();
@@ -19,7 +33,7 @@ export const Analytics = () => {
       neutral: 0,
     };
 
-    entries.forEach(entry => {
+    entries.forEach((entry) => {
       moodCount[entry.mood]++;
     });
 
@@ -32,8 +46,8 @@ export const Analytics = () => {
   // Writing frequency by month
   const monthlyData = useMemo(() => {
     const months: Record<string, number> = {};
-    
-    entries.forEach(entry => {
+
+    entries.forEach((entry) => {
       const date = new Date(entry.date);
       const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
       months[monthKey] = (months[monthKey] || 0) + 1;
@@ -51,27 +65,33 @@ export const Analytics = () => {
   // Calculate stats
   const stats = useMemo(() => {
     const now = new Date();
-    const thisMonth = entries.filter(e => {
+    const thisMonth = entries.filter((e) => {
       const entryDate = new Date(e.date);
-      return entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear();
+      return (
+        entryDate.getMonth() === now.getMonth() && entryDate.getFullYear() === now.getFullYear()
+      );
     }).length;
 
-    const lastMonth = entries.filter(e => {
+    const lastMonth = entries.filter((e) => {
       const entryDate = new Date(e.date);
       const lastMonthDate = new Date(now.getFullYear(), now.getMonth() - 1);
-      return entryDate.getMonth() === lastMonthDate.getMonth() && 
-             entryDate.getFullYear() === lastMonthDate.getFullYear();
+      return (
+        entryDate.getMonth() === lastMonthDate.getMonth() &&
+        entryDate.getFullYear() === lastMonthDate.getFullYear()
+      );
     }).length;
 
-    const avgPerMonth = entries.length > 0 
-      ? Math.round(entries.length / (Object.keys(monthlyData).length || 1))
-      : 0;
+    const avgPerMonth =
+      entries.length > 0 ? Math.round(entries.length / (Object.keys(monthlyData).length || 1)) : 0;
 
     // Most common mood
-    const moodCounts = moodData.reduce((acc, curr) => {
-      if (curr.count > (acc.count || 0)) return curr;
-      return acc;
-    }, { mood: 'neutral', count: 0 });
+    const moodCounts = moodData.reduce(
+      (acc, curr) => {
+        if (curr.count > (acc.count || 0)) return curr;
+        return acc;
+      },
+      { mood: 'neutral', count: 0 }
+    );
 
     return {
       thisMonth,
@@ -95,9 +115,10 @@ export const Analytics = () => {
     {
       icon: TrendingUp,
       title: 'Writing Trend',
-      description: stats.thisMonth > stats.lastMonth
-        ? 'You\'re writing more this month! Keep it up!'
-        : 'Try to write more this month to maintain your habit.',
+      description:
+        stats.thisMonth > stats.lastMonth
+          ? "You're writing more this month! Keep it up!"
+          : 'Try to write more this month to maintain your habit.',
       color: 'text-green-600',
       bg: 'bg-green-100',
     },
@@ -111,9 +132,10 @@ export const Analytics = () => {
     {
       icon: Activity,
       title: 'Consistency',
-      description: stats.avgPerMonth > 5
-        ? 'Great consistency! You\'re building a strong journaling habit.'
-        : 'Try to write more regularly to build a better habit.',
+      description:
+        stats.avgPerMonth > 5
+          ? "Great consistency! You're building a strong journaling habit."
+          : 'Try to write more regularly to build a better habit.',
       color: 'text-blue-600',
       bg: 'bg-blue-100',
     },
@@ -162,7 +184,7 @@ export const Analytics = () => {
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
-                  data={moodData.filter(d => d.count > 0)}
+                  data={moodData.filter((d) => d.count > 0)}
                   cx="50%"
                   cy="50%"
                   labelLine={false}
@@ -188,18 +210,18 @@ export const Analytics = () => {
                 <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
                 <XAxis dataKey="month" stroke="#92400e" />
                 <YAxis stroke="#92400e" />
-                <Tooltip 
-                  contentStyle={{ 
+                <Tooltip
+                  contentStyle={{
                     backgroundColor: '#fffbeb',
                     border: '1px solid #fed7aa',
-                    borderRadius: '8px'
+                    borderRadius: '8px',
                   }}
                 />
                 <Bar dataKey="entries" fill="url(#colorGradient)" radius={[8, 8, 0, 0]} />
                 <defs>
                   <linearGradient id="colorGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor="#f97316" stopOpacity={0.8}/>
+                    <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.8} />
+                    <stop offset="95%" stopColor="#f97316" stopOpacity={0.8} />
                   </linearGradient>
                 </defs>
               </BarChart>
@@ -223,7 +245,9 @@ export const Analytics = () => {
                 transition={{ delay: index * 0.1 }}
                 className="bg-white/80 backdrop-blur-sm rounded-xl p-6"
               >
-                <div className={`w-12 h-12 ${insight.bg} rounded-xl flex items-center justify-center mb-4`}>
+                <div
+                  className={`w-12 h-12 ${insight.bg} rounded-xl flex items-center justify-center mb-4`}
+                >
                   <insight.icon className={`w-6 h-6 ${insight.color}`} />
                 </div>
                 <h4 className="font-serif text-amber-900 mb-2">{insight.title}</h4>

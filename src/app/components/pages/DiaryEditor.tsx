@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Textarea } from '../ui/textarea';
-import { 
+import {
   Save,
   X,
   Bold,
@@ -16,7 +16,7 @@ import {
   Smile,
   Music,
   Check,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -32,7 +32,7 @@ const moods: Mood[] = ['happy', 'calm', 'sad', 'anxious', 'excited', 'neutral'];
 export const DiaryEditor = () => {
   const { addEntry, entries } = useDiary();
   const navigate = useNavigate();
-  
+
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [mood, setMood] = useState<Mood>('neutral');
@@ -66,7 +66,10 @@ export const DiaryEditor = () => {
       mood,
       content,
       title,
-      tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+      tags: tags
+        .split(',')
+        .map((t) => t.trim())
+        .filter(Boolean),
       fontStyle: selectedFont,
     };
 
@@ -135,7 +138,7 @@ export const DiaryEditor = () => {
         <div className="relative">
           {/* Book shadow and binding */}
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-full bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 shadow-2xl z-10 rounded-sm" />
-          
+
           <div className="grid md:grid-cols-2 gap-0 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl overflow-hidden shadow-2xl">
             {/* Left Page - Previous Entry */}
             <motion.div
@@ -167,12 +170,14 @@ export const DiaryEditor = () => {
                 </h3>
                 {previousEntry ? (
                   <div className="flex-1 overflow-auto">
-                    <h4 className="font-serif text-lg text-amber-800 mb-2">{previousEntry.title}</h4>
+                    <h4 className="font-serif text-lg text-amber-800 mb-2">
+                      {previousEntry.title}
+                    </h4>
                     <p className="text-sm text-amber-600 mb-4">
-                      {new Date(previousEntry.date).toLocaleDateString('en-US', { 
-                        month: 'long', 
+                      {new Date(previousEntry.date).toLocaleDateString('en-US', {
+                        month: 'long',
                         day: 'numeric',
-                        year: 'numeric' 
+                        year: 'numeric',
                       })}
                     </p>
                     <p className="text-amber-900 leading-relaxed whitespace-pre-wrap opacity-60">
@@ -215,11 +220,11 @@ export const DiaryEditor = () => {
                 {/* Date and Mood */}
                 <div className="flex items-center justify-between mb-2">
                   <p className="text-sm text-amber-600">
-                    {new Date().toLocaleDateString('en-US', { 
+                    {new Date().toLocaleDateString('en-US', {
                       weekday: 'long',
-                      month: 'long', 
+                      month: 'long',
                       day: 'numeric',
-                      year: 'numeric' 
+                      year: 'numeric',
                     })}
                   </p>
                   <div className="relative">
@@ -234,7 +239,7 @@ export const DiaryEditor = () => {
                     </Button>
                     {showMoodPicker && (
                       <div className="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-lg p-2 grid grid-cols-3 gap-2 z-20">
-                        {moods.map(m => (
+                        {moods.map((m) => (
                           <button
                             key={m}
                             onClick={() => {
@@ -274,7 +279,7 @@ export const DiaryEditor = () => {
                     </Button>
                     {showFontPicker && (
                       <div className="absolute left-0 top-full mt-2 bg-white rounded-lg shadow-lg p-2 z-20 min-w-[150px]">
-                        {fonts.map(f => (
+                        {fonts.map((f) => (
                           <button
                             key={f.value}
                             onClick={() => {
