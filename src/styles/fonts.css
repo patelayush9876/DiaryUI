@@ -1,0 +1,11 @@
+/* Google Fonts for Diary Application */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=Playfair+Display:wght@400;500;600;700&family=Dancing+Script:wght@400;500;600&family=Special+Elite&display=swap');
+
+/* Font families */
+.font-serif {
+  font-family: 'Playfair Display', serif;
+}
+
+.font-handwriting {
+  font-family: 'Dancing Script', cursive;
+}
