@@ -1,39 +1,70 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { useDiary } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
-import { Mail, Lock, User, Chrome } from 'lucide-react';
+import { Mail, Lock, User, Chrome, AtSign } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '../../context/AuthContext';
 
 export const SignupPage = () => {
   const [name, setName] = useState('');
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { signup } = useDiary();
+  const [otpCode, setOtpCode] = useState('');
+  const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleSignup = (e: React.FormEvent) => {
+  const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      toast.error('Please fill in all fields');
+
+    if (!name || !username || !email || !password) {
+      toast.error('Please fill in all required fields');
       return;
     }
-    if (password.length < 6) {
-      toast.error('Password must be at least 6 characters');
+
+    if (name.trim().length < 2) {
+      toast.error('Name must be at least 2 characters');
       return;
     }
-    signup(name, email, password);
-    toast.success(`Welcome, ${name}! Start your journaling journey.`);
-    navigate('/');
+
+    if (username.length < 3) {
+      toast.error('Username must be at least 3 characters');
+      return;
+    }
+
+    if (!/^[a-zA-Z0-9_.-]+$/.test(username)) {
+      toast.error(
+        'Username can only include letters, numbers, dots, underscores, and hyphens'
+      );
+      return;
+    }
+
+    if (password.length < 8) {
+      toast.error('Password must be at least 8 characters');
+      return;
+    }
+
+    try {
+      await register({
+        name: name,
+        username,
+        email,
+        password,
+        otpCode: otpCode || undefined,
+      });
+
+      toast.success(`Welcome, ${name}! Start your journaling journey.`);
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'Signup failed. Please try again.');
+    }
   };
 
   const handleGoogleSignup = () => {
-    signup('Google User', 'user@gmail.com', 'password');
-    toast.success('Account created with Google!');
-    navigate('/');
+    toast.info('Google signup integration coming soon');
   };
 
   return (
@@ -60,6 +91,23 @@ export const SignupPage = () => {
               placeholder="Your name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              className="pl-10 bg-amber-50 border-amber-200 focus:border-amber-400"
+            />
+          </div>
+        </div>
+
+        <div>
+          <Label htmlFor="username" className="text-amber-900">
+            Username
+          </Label>
+          <div className="relative mt-1">
+            <AtSign className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-amber-600" />
+            <Input
+              id="username"
+              type="text"
+              placeholder="your_username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               className="pl-10 bg-amber-50 border-amber-200 focus:border-amber-400"
             />
           </div>
@@ -97,6 +145,21 @@ export const SignupPage = () => {
               className="pl-10 bg-amber-50 border-amber-200 focus:border-amber-400"
             />
           </div>
+        </div>
+
+        <div>
+          <Label htmlFor="otpCode" className="text-amber-900">
+            OTP Code (Optional)
+          </Label>
+          <Input
+            id="otpCode"
+            type="text"
+            placeholder="Enter OTP if you have one"
+            value={otpCode}
+            onChange={(e) => setOtpCode(e.target.value)}
+            maxLength={12}
+            className="mt-1 bg-amber-50 border-amber-200 focus:border-amber-400"
+          />
         </div>
 
         <Button

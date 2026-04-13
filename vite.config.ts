@@ -32,4 +32,8 @@ export default defineConfig({
 
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  define: {
+    API_BASE_URL: JSON.stringify('http://localhost:5001/api/v1'),
+  },
 });

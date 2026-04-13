@@ -1,35 +1,38 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router';
-import { useDiary } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Mail, Lock, Chrome } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '../../context/AuthContext';
 
 export const LoginPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const { login } = useDiary();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!email || !password) {
       toast.error('Please fill in all fields');
       return;
     }
-    login(email, password);
-    toast.success('Welcome back!');
-    navigate('/');
+
+    try {
+      await login({ identifier: email, password });
+      toast.success('Welcome back!');
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'Login failed. Please try again.');
+    }
   };
 
   const handleGoogleLogin = () => {
-    // Mock Google login
-    login('user@gmail.com', 'password');
-    toast.success('Logged in with Google!');
-    navigate('/');
+    toast.info('Google login integration coming soon');
   };
 
   return (

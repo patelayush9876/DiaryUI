@@ -1,5 +1,5 @@
 import { Outlet, Navigate, useNavigate, useLocation } from 'react-router';
-import { useDiary } from '../../context/DiaryContext';
+import { useAuth } from '../../context/AuthContext';
 import { motion } from 'motion/react';
 import {
   Book,
@@ -14,13 +14,23 @@ import {
 import { Button } from '../ui/button';
 
 export const MainLayout = () => {
-  const { user, logout } = useDiary();
+  const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+
+  if (loading) {
+    return null;
+  }
 
   if (!user) {
     return <Navigate to="/auth/login" replace />;
   }
+
+  const displayName = user.fullName || user.name || user.username || user.email || 'Diary User';
+  const avatarSeed = user.username || user.email || displayName;
+  const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(
+    avatarSeed
+  )}`;
 
   const navItems = [
     { icon: Home, label: 'Home', path: '/' },
@@ -60,12 +70,12 @@ export const MainLayout = () => {
           <div className="mb-8 p-4 bg-gradient-to-r from-amber-100 to-orange-100 rounded-xl">
             <div className="flex items-center gap-3">
               <img
-                src={user.avatar}
-                alt={user.name}
+                src={avatarUrl}
+                alt={displayName}
                 className="w-12 h-12 rounded-full border-2 border-white shadow"
               />
               <div>
-                <p className="font-serif text-amber-900">{user.name}</p>
+                <p className="font-serif text-amber-900">{displayName}</p>
                 <p className="text-xs text-amber-700">Keep writing...</p>
               </div>
             </div>

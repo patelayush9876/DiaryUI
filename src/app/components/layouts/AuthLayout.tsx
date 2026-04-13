@@ -1,10 +1,14 @@
 import { Outlet, Navigate } from 'react-router';
-import { useDiary } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Book } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 export const AuthLayout = () => {
-  const { user } = useDiary();
+  const { user, loading } = useAuth();
+
+  if (loading) {
+    return null;
+  }
 
   if (user) {
     return <Navigate to="/" replace />;
