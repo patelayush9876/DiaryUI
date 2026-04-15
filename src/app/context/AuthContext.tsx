@@ -1,15 +1,15 @@
+import { ReactNode, SetStateAction, useEffect } from 'react';
+import { ApiResult, MeResponse } from '../interfaces/auth.interface';
+import { useAppDispatch, useAppSelector } from '../store/hooks';
 import {
-  ApiResponse,
-  MeResponse,
-} from '../interfaces/auth.interface';
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-  ReactNode,
-} from 'react';
-import authService from '../services/auth.service';
+  adminLoginUser,
+  fetchCurrentUser,
+  loginUser,
+  logoutUser,
+  registerUser,
+  setAuthLoading,
+  setAuthUser,
+} from '../store/slices/auth.slice';
 import { tokenStorage } from '../utils/token';
 
 type User = MeResponse;
@@ -21,97 +21,55 @@ type AuthContextType = {
   adminLogin: (credentials: any) => Promise<any>;
   register: (payload: any) => Promise<any>;
   logout: () => Promise<void>;
-  setUser: React.Dispatch<React.SetStateAction<User | null>>;
+  setUser: (value: SetStateAction<User | null>) => void;
 };
-
-const AuthContext = createContext<AuthContextType | null>(null);
 
 type AuthProviderProps = {
   children: ReactNode;
 };
 
 export const AuthProvider = ({ children }: AuthProviderProps) => {
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchUser = async () => {
-    try {
-      const res = await authService.getCurrentUser();
-      const userData =
-        res && typeof res === 'object' && 'data' in res
-          ? (res as ApiResponse<MeResponse>).data
-          : (res as MeResponse);
-
-      setUser(userData || null);
-    } catch (error) {
-      setUser(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const login = async (credentials: any) => {
-    const res = await authService.login(credentials);
-    await fetchUser();
-    return res;
-  };
-
-  const adminLogin = async (credentials: any) => {
-    const res = await authService.adminLogin(credentials);
-    await fetchUser();
-    return res;
-  };
-
-  const register = async (payload: any) => {
-    const res = await authService.register(payload);
-    await fetchUser();
-    return res;
-  };
-
-  const logout = async () => {
-    try {
-      await authService.logout();
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setUser(null);
-      tokenStorage.removeToken();
-    }
-  };
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const token = tokenStorage.getToken();
 
     if (token) {
-      fetchUser();
-    } else {
-      setLoading(false);
+      dispatch(fetchCurrentUser());
+      return;
     }
-  }, []);
 
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        loading,
-        login,
-        adminLogin,
-        register,
-        logout,
-        setUser,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+    dispatch(setAuthLoading(false));
+  }, [dispatch]);
+
+  return <>{children}</>;
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
+export const useAuth = (): AuthContextType => {
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.auth.user);
+  const loading = useAppSelector((state) => state.auth.loading);
 
-  if (!context) {
-    throw new Error('useAuth must be used inside AuthProvider');
-  }
+  const setUser = (value: SetStateAction<User | null>) => {
+    const nextUser = typeof value === 'function' ? value(user) : value;
+    dispatch(setAuthUser(nextUser));
+  };
 
-  return context;
+  return {
+    user,
+    loading,
+    login: async (credentials: any): Promise<ApiResult<any>> => {
+      return dispatch(loginUser(credentials)).unwrap();
+    },
+    adminLogin: async (credentials: any): Promise<ApiResult<any>> => {
+      return dispatch(adminLoginUser(credentials)).unwrap();
+    },
+    register: async (payload: any): Promise<ApiResult<any>> => {
+      return dispatch(registerUser(payload)).unwrap();
+    },
+    logout: async (): Promise<void> => {
+      await dispatch(logoutUser()).unwrap();
+    },
+    setUser,
+  };
 };

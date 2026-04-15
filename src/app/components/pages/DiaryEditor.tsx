@@ -30,7 +30,7 @@ const fonts = [
 const moods: Mood[] = ['happy', 'calm', 'sad', 'anxious', 'excited', 'neutral'];
 
 export const DiaryEditor = () => {
-  const { addEntry, entries } = useDiary();
+  const { addEntry, entries, saving } = useDiary();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -54,18 +54,17 @@ export const DiaryEditor = () => {
     }
   }, [content]);
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (!title.trim() || !content.trim()) {
       toast.error('Please add a title and content');
       return;
     }
 
     const entry = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
       mood,
       content,
       title,
+      date: new Date().toISOString(),
       tags: tags
         .split(',')
         .map((t) => t.trim())
@@ -73,9 +72,13 @@ export const DiaryEditor = () => {
       fontStyle: selectedFont,
     };
 
-    addEntry(entry);
-    toast.success('Entry saved successfully!');
-    navigate('/');
+    try {
+      await addEntry(entry);
+      toast.success('Entry saved successfully!');
+      navigate('/');
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message || 'Failed to save entry. Please try again.');
+    }
   };
 
   const getPreviousEntry = () => {
@@ -126,10 +129,11 @@ export const DiaryEditor = () => {
 
             <Button
               onClick={handleSave}
+              disabled={saving}
               className="bg-gradient-to-r from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700 text-white"
             >
               <Save className="w-5 h-5 mr-2" />
-              Save Entry
+              {saving ? 'Saving...' : 'Save Entry'}
             </Button>
           </div>
         </div>

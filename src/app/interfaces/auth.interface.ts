@@ -11,7 +11,6 @@ export type ApiResult<T> = ApiResponse<T> | T;
 export interface User {
   _id?: string;
   id?: string;
-  fullName?: string;
   name?: string;
   email: string;
   username?: string;
@@ -30,7 +29,7 @@ export interface AuthTokens {
 
 // Register
 export interface RegisterPayload {
-  fullName: string;
+  name: string;
   email: string;
   username?: string;
   password: string;

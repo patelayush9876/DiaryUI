@@ -26,7 +26,7 @@ export const MainLayout = () => {
     return <Navigate to="/auth/login" replace />;
   }
 
-  const displayName = user.fullName || user.name || user.username || user.email || 'Diary User';
+  const displayName = user.name || user.username || user.email || 'Diary User';
   const avatarSeed = user.username || user.email || displayName;
   const avatarUrl = `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(
     avatarSeed

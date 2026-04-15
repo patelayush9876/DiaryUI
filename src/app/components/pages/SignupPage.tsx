@@ -147,7 +147,7 @@ export const SignupPage = () => {
           </div>
         </div>
 
-        <div>
+        {/* <div>
           <Label htmlFor="otpCode" className="text-amber-900">
             OTP Code (Optional)
           </Label>
@@ -160,7 +160,7 @@ export const SignupPage = () => {
             maxLength={12}
             className="mt-1 bg-amber-50 border-amber-200 focus:border-amber-400"
           />
-        </div>
+        </div> */}
 
         <Button
           type="submit"
