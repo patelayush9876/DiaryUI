@@ -292,7 +292,7 @@ export const DiaryEditor = () => {
             >
               {/* Page number */}
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-amber-400 text-sm">
-                {entries.length * 2 + 1}
+                {orderedEntries.length + 1}
               </div>
 
               <div className="h-full flex flex-col gap-4">
