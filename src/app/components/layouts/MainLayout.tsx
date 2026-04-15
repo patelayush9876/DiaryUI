@@ -68,7 +68,7 @@ export const MainLayout = () => {
               <Book className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="font-serif text-lg text-foreground">Dear Diary</h2>
+              <h2 className="font-serif text-2xl text-foreground">Dear Diary</h2>
             </div>
           </div>
 

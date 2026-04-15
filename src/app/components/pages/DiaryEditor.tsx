@@ -30,10 +30,7 @@ const fonts = [
 const moods: Mood[] = ['happy', 'calm', 'sad', 'anxious', 'excited', 'neutral'];
 
 const escapeHtml = (value: string) =>
-  value
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;');
+  value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 
 const formatDiaryContentToHtml = (value: string) => {
   const escaped = escapeHtml(value);
@@ -46,14 +43,7 @@ const formatDiaryContentToHtml = (value: string) => {
 };
 
 export const DiaryEditor = () => {
-  const {
-    addEntry,
-    entries,
-    saving,
-    currentFont,
-    currentPageStyle,
-    setCurrentFont,
-  } = useDiary();
+  const { addEntry, entries, saving, currentFont, currentPageStyle, setCurrentFont } = useDiary();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
@@ -64,6 +54,7 @@ export const DiaryEditor = () => {
   const [autoSaved, setAutoSaved] = useState(false);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
+  const [currentSpread, setCurrentSpread] = useState(0);
   const contentRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Auto-save effect
@@ -104,26 +95,28 @@ export const DiaryEditor = () => {
     }
   };
 
-  const getPreviousEntry = () => {
-    return entries[0];
+  const orderedEntries = [...entries].reverse();
+  const totalSpreads = Math.max(1, Math.ceil(orderedEntries.length / 2));
+
+  const previousEntry = orderedEntries[currentSpread] || null;
+
+  const handleNextPage = () => {
+    if (currentSpread < orderedEntries.length - 1) {
+      setCurrentSpread((prev) => prev + 1);
+    }
   };
 
-  const previousEntry = getPreviousEntry();
-  const paperBackgroundImage =
-    currentPageStyle === 'blank-canvas'
-      ? 'none'
-      : 'var(--page-pattern)';
-  const paperBackgroundSize =
-    currentPageStyle === 'blank-canvas'
-      ? undefined
-      : 'var(--page-pattern-size)';
+  const handlePrevPage = () => {
+    if (currentSpread > 0) {
+      setCurrentSpread((prev) => prev - 1);
+    }
+  };
 
-  const applyTextFormat = (
-    prefix: string,
-    suffix: string,
-    placeholder: string,
-    label: string
-  ) => {
+  const paperBackgroundImage = currentPageStyle === 'blank-canvas' ? 'none' : 'var(--page-pattern)';
+  const paperBackgroundSize =
+    currentPageStyle === 'blank-canvas' ? undefined : 'var(--page-pattern-size)';
+
+  const applyTextFormat = (prefix: string, suffix: string, placeholder: string, label: string) => {
     const textarea = contentRef.current;
 
     if (!textarea) {
@@ -214,19 +207,25 @@ export const DiaryEditor = () => {
           {/* Book shadow and binding */}
           <div
             className="absolute top-0 left-1/2 z-10 h-full w-2 -translate-x-1/2 rounded-sm shadow-2xl"
-            style={{ background: 'linear-gradient(to right, var(--cover-spine), var(--cover-end), var(--cover-spine))' }}
+            style={{
+              background:
+                'linear-gradient(to right, var(--cover-spine), var(--cover-end), var(--cover-spine))',
+            }}
           />
 
           <div
             className="grid overflow-hidden rounded-2xl shadow-2xl md:grid-cols-2"
             style={{
-              backgroundImage: 'linear-gradient(to bottom right, var(--paper-start), var(--paper-end))',
+              backgroundImage:
+                'linear-gradient(to bottom right, var(--paper-start), var(--paper-end))',
             }}
           >
             {/* Left Page - Previous Entry */}
             <motion.div
-              initial={{ rotateY: -5 }}
-              animate={{ rotateY: 0 }}
+              key={currentSpread}
+              initial={{ rotateY: -15, opacity: 0 }}
+              animate={{ rotateY: 0, opacity: 1 }}
+              transition={{ duration: 0.4 }}
               className="relative min-h-[600px] p-12"
               style={{
                 backgroundImage: paperBackgroundImage,
@@ -236,7 +235,7 @@ export const DiaryEditor = () => {
             >
               {/* Page number */}
               <div className="absolute bottom-6 left-1/2 -translate-x-1/2 text-amber-400 text-sm">
-                {entries.length * 2}
+                {currentSpread + 1}
               </div>
 
               {/* Bookmark ribbon */}
@@ -358,9 +357,7 @@ export const DiaryEditor = () => {
                     variant="ghost"
                     size="sm"
                     className="text-amber-700 hover:bg-amber-100"
-                    onClick={() =>
-                      applyTextFormat('<u>', '</u>', 'underlined text', 'Underline')
-                    }
+                    onClick={() => applyTextFormat('<u>', '</u>', 'underlined text', 'Underline')}
                   >
                     <Underline className="w-4 h-4" />
                   </Button>
@@ -425,7 +422,29 @@ export const DiaryEditor = () => {
             </motion.div>
           </div>
         </div>
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <Button
+            onClick={handlePrevPage}
+            disabled={currentSpread === 0}
+            variant="outline"
+            className="border-border bg-card/80 text-foreground backdrop-blur-sm hover:bg-accent hover:text-accent-foreground disabled:opacity-40"
+          >
+            ← Previous
+          </Button>
 
+          <span className="text-sm text-muted-foreground">
+            Page {currentSpread + 1} of {Math.max(orderedEntries.length, 1)}
+          </span>
+
+          <Button
+            onClick={handleNextPage}
+            disabled={currentSpread >= orderedEntries.length - 1}
+            variant="outline"
+            className="border-border bg-card/80 text-foreground backdrop-blur-sm hover:bg-accent hover:text-accent-foreground disabled:opacity-40"
+          >
+            Next →
+          </Button>
+        </div>
         {/* Tips */}
         <motion.div
           initial={{ opacity: 0 }}
