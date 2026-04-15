@@ -17,6 +17,9 @@ export type DiaryState = {
   user: DiaryUser | null;
   entries: DiaryEntry[];
   currentTheme: string;
+  currentFont: string;
+  currentCover: string;
+  currentPageStyle: string;
   loading: boolean;
   saving: boolean;
   deletingEntryIds: string[];
@@ -24,7 +27,10 @@ export type DiaryState = {
   hasLoaded: boolean;
 };
 
-const STORAGE_KEY = 'diary_theme';
+const THEME_STORAGE_KEY = 'diary_theme';
+const FONT_STORAGE_KEY = 'diary_font';
+const COVER_STORAGE_KEY = 'diary_cover';
+const PAGE_STYLE_STORAGE_KEY = 'diary_page_style';
 
 const extractApiData = <T>(payload: unknown): T => {
   if (payload && typeof payload === 'object' && 'data' in payload) {
@@ -126,6 +132,9 @@ const getInitialState = (): DiaryState => {
     user: null,
     entries: [],
     currentTheme: 'vintage',
+    currentFont: 'font-serif',
+    currentCover: 'leather-brown',
+    currentPageStyle: 'lined-paper',
     loading: false,
     saving: false,
     deletingEntryIds: [],
@@ -137,16 +146,20 @@ const getInitialState = (): DiaryState => {
     return fallback;
   }
 
-  const storedTheme = localStorage.getItem(STORAGE_KEY);
-
-  if (!storedTheme) {
-    return fallback;
-  }
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  const storedFont = localStorage.getItem(FONT_STORAGE_KEY);
+  const storedCover = localStorage.getItem(COVER_STORAGE_KEY);
+  const storedPageStyle = localStorage.getItem(PAGE_STYLE_STORAGE_KEY);
 
   try {
     return {
       ...fallback,
-      currentTheme: JSON.parse(storedTheme) as string,
+      currentTheme: storedTheme ? (JSON.parse(storedTheme) as string) : fallback.currentTheme,
+      currentFont: storedFont ? (JSON.parse(storedFont) as string) : fallback.currentFont,
+      currentCover: storedCover ? (JSON.parse(storedCover) as string) : fallback.currentCover,
+      currentPageStyle: storedPageStyle
+        ? (JSON.parse(storedPageStyle) as string)
+        : fallback.currentPageStyle,
     };
   } catch {
     return fallback;
@@ -203,6 +216,15 @@ const diarySlice = createSlice({
     setCurrentTheme(state, action: PayloadAction<string>) {
       state.currentTheme = action.payload;
     },
+    setCurrentFont(state, action: PayloadAction<string>) {
+      state.currentFont = action.payload;
+    },
+    setCurrentCover(state, action: PayloadAction<string>) {
+      state.currentCover = action.payload;
+    },
+    setCurrentPageStyle(state, action: PayloadAction<string>) {
+      state.currentPageStyle = action.payload;
+    },
     setDiaryUser(state, action: PayloadAction<DiaryUser | null>) {
       state.user = action.payload;
     },
@@ -210,6 +232,9 @@ const diarySlice = createSlice({
       state.user = null;
       state.entries = [];
       state.currentTheme = 'vintage';
+      state.currentFont = 'font-serif';
+      state.currentCover = 'leather-brown';
+      state.currentPageStyle = 'lined-paper';
       state.loading = false;
       state.saving = false;
       state.deletingEntryIds = [];
@@ -220,6 +245,9 @@ const diarySlice = createSlice({
       state.user = action.payload.user;
       state.entries = action.payload.entries;
       state.currentTheme = action.payload.currentTheme;
+      state.currentFont = action.payload.currentFont;
+      state.currentCover = action.payload.currentCover;
+      state.currentPageStyle = action.payload.currentPageStyle;
       state.loading = action.payload.loading;
       state.saving = action.payload.saving;
       state.deletingEntryIds = action.payload.deletingEntryIds;
@@ -287,8 +315,16 @@ const diarySlice = createSlice({
   },
 });
 
-export const { clearDiaryError, hydrateDiary, resetDiaryState, setCurrentTheme, setDiaryUser } =
-  diarySlice.actions;
+export const {
+  clearDiaryError,
+  hydrateDiary,
+  resetDiaryState,
+  setCurrentTheme,
+  setCurrentFont,
+  setCurrentCover,
+  setCurrentPageStyle,
+  setDiaryUser,
+} = diarySlice.actions;
 
 export const diaryReducer = diarySlice.reducer;
 
@@ -297,5 +333,8 @@ export const persistDiaryState = (state: DiaryState) => {
     return;
   }
 
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(state.currentTheme));
+  localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(state.currentTheme));
+  localStorage.setItem(FONT_STORAGE_KEY, JSON.stringify(state.currentFont));
+  localStorage.setItem(COVER_STORAGE_KEY, JSON.stringify(state.currentCover));
+  localStorage.setItem(PAGE_STYLE_STORAGE_KEY, JSON.stringify(state.currentPageStyle));
 };

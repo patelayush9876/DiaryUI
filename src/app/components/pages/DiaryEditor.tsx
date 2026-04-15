@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router';
 import { useDiary, Mood } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
@@ -29,19 +29,42 @@ const fonts = [
 
 const moods: Mood[] = ['happy', 'calm', 'sad', 'anxious', 'excited', 'neutral'];
 
+const escapeHtml = (value: string) =>
+  value
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+
+const formatDiaryContentToHtml = (value: string) => {
+  const escaped = escapeHtml(value);
+
+  return escaped
+    .replace(/\*\*(.+?)\*\*/gs, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/gs, '<em>$1</em>')
+    .replace(/&lt;u&gt;(.+?)&lt;\/u&gt;/gs, '<u>$1</u>')
+    .replace(/\n/g, '<br />');
+};
+
 export const DiaryEditor = () => {
-  const { addEntry, entries, saving } = useDiary();
+  const {
+    addEntry,
+    entries,
+    saving,
+    currentFont,
+    currentPageStyle,
+    setCurrentFont,
+  } = useDiary();
   const navigate = useNavigate();
 
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [mood, setMood] = useState<Mood>('neutral');
-  const [selectedFont, setSelectedFont] = useState('font-serif');
   const [tags, setTags] = useState('');
   const [isPlaying, setIsPlaying] = useState(false);
   const [autoSaved, setAutoSaved] = useState(false);
   const [showMoodPicker, setShowMoodPicker] = useState(false);
   const [showFontPicker, setShowFontPicker] = useState(false);
+  const contentRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Auto-save effect
   useEffect(() => {
@@ -69,7 +92,7 @@ export const DiaryEditor = () => {
         .split(',')
         .map((t) => t.trim())
         .filter(Boolean),
-      fontStyle: selectedFont,
+      fontStyle: currentFont,
     };
 
     try {
@@ -86,9 +109,57 @@ export const DiaryEditor = () => {
   };
 
   const previousEntry = getPreviousEntry();
+  const paperBackgroundImage =
+    currentPageStyle === 'blank-canvas'
+      ? 'none'
+      : 'var(--page-pattern)';
+  const paperBackgroundSize =
+    currentPageStyle === 'blank-canvas'
+      ? undefined
+      : 'var(--page-pattern-size)';
+
+  const applyTextFormat = (
+    prefix: string,
+    suffix: string,
+    placeholder: string,
+    label: string
+  ) => {
+    const textarea = contentRef.current;
+
+    if (!textarea) {
+      return;
+    }
+
+    const selectionStart = textarea.selectionStart ?? 0;
+    const selectionEnd = textarea.selectionEnd ?? 0;
+    const selectedText = content.slice(selectionStart, selectionEnd);
+    const textToWrap = selectedText || placeholder;
+    const nextContent =
+      content.slice(0, selectionStart) +
+      `${prefix}${textToWrap}${suffix}` +
+      content.slice(selectionEnd);
+
+    setContent(nextContent);
+
+    const nextSelectionStart = selectionStart + prefix.length;
+    const nextSelectionEnd = nextSelectionStart + textToWrap.length;
+
+    requestAnimationFrame(() => {
+      textarea.focus();
+      textarea.setSelectionRange(nextSelectionStart, nextSelectionEnd);
+    });
+
+    toast.success(`${label} formatting applied`);
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-900 via-yellow-800 to-orange-900 p-8">
+    <div
+      className="min-h-screen p-8"
+      style={{
+        backgroundImage:
+          'linear-gradient(to bottom right, var(--cover-start), color-mix(in srgb, var(--cover-end) 82%, black), var(--cover-end))',
+      }}
+    >
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -141,23 +212,26 @@ export const DiaryEditor = () => {
         {/* Book Interface */}
         <div className="relative">
           {/* Book shadow and binding */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-2 h-full bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 shadow-2xl z-10 rounded-sm" />
+          <div
+            className="absolute top-0 left-1/2 z-10 h-full w-2 -translate-x-1/2 rounded-sm shadow-2xl"
+            style={{ background: 'linear-gradient(to right, var(--cover-spine), var(--cover-end), var(--cover-spine))' }}
+          />
 
-          <div className="grid md:grid-cols-2 gap-0 bg-gradient-to-br from-amber-50 to-orange-50 rounded-2xl overflow-hidden shadow-2xl">
+          <div
+            className="grid overflow-hidden rounded-2xl shadow-2xl md:grid-cols-2"
+            style={{
+              backgroundImage: 'linear-gradient(to bottom right, var(--paper-start), var(--paper-end))',
+            }}
+          >
             {/* Left Page - Previous Entry */}
             <motion.div
               initial={{ rotateY: -5 }}
               animate={{ rotateY: 0 }}
-              className="relative p-12 bg-gradient-to-br from-amber-50 to-yellow-50 min-h-[600px]"
+              className="relative min-h-[600px] p-12"
               style={{
-                backgroundImage: `
-                  repeating-linear-gradient(
-                    transparent,
-                    transparent 30px,
-                    rgba(217, 119, 6, 0.05) 30px,
-                    rgba(217, 119, 6, 0.05) 31px
-                  )
-                `,
+                backgroundImage: paperBackgroundImage,
+                backgroundSize: paperBackgroundSize,
+                backgroundColor: 'var(--paper-start)',
               }}
             >
               {/* Page number */}
@@ -184,9 +258,16 @@ export const DiaryEditor = () => {
                         year: 'numeric',
                       })}
                     </p>
-                    <p className="text-amber-900 leading-relaxed whitespace-pre-wrap opacity-60">
-                      {previousEntry.content.slice(0, 400)}...
-                    </p>
+                    <div
+                      className="text-amber-900 leading-relaxed opacity-60"
+                      dangerouslySetInnerHTML={{
+                        __html: formatDiaryContentToHtml(
+                          `${previousEntry.content.slice(0, 400)}${
+                            previousEntry.content.length > 400 ? '...' : ''
+                          }`
+                        ),
+                      }}
+                    />
                   </div>
                 ) : (
                   <div className="flex-1 flex items-center justify-center text-amber-400">
@@ -203,16 +284,11 @@ export const DiaryEditor = () => {
             <motion.div
               initial={{ rotateY: 5 }}
               animate={{ rotateY: 0 }}
-              className="relative p-12 bg-gradient-to-br from-yellow-50 to-amber-50 min-h-[600px]"
+              className="relative min-h-[600px] p-12"
               style={{
-                backgroundImage: `
-                  repeating-linear-gradient(
-                    transparent,
-                    transparent 30px,
-                    rgba(217, 119, 6, 0.05) 30px,
-                    rgba(217, 119, 6, 0.05) 31px
-                  )
-                `,
+                backgroundImage: paperBackgroundImage,
+                backgroundSize: paperBackgroundSize,
+                backgroundColor: 'var(--paper-end)',
               }}
             >
               {/* Page number */}
@@ -242,7 +318,7 @@ export const DiaryEditor = () => {
                       {mood}
                     </Button>
                     {showMoodPicker && (
-                      <div className="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-lg p-2 grid grid-cols-3 gap-2 z-20">
+                      <div className="absolute right-0 top-full mt-2 bg-white rounded-lg shadow-lg p-2 grid grid-cols-1 gap-2 z-20">
                         {moods.map((m) => (
                           <button
                             key={m}
@@ -262,13 +338,30 @@ export const DiaryEditor = () => {
 
                 {/* Toolbar */}
                 <div className="flex items-center gap-2 pb-3 border-b border-amber-200">
-                  <Button variant="ghost" size="sm" className="text-amber-700 hover:bg-amber-100">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-amber-700 hover:bg-amber-100"
+                    onClick={() => applyTextFormat('**', '**', 'bold text', 'Bold')}
+                  >
                     <Bold className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-amber-700 hover:bg-amber-100">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-amber-700 hover:bg-amber-100"
+                    onClick={() => applyTextFormat('*', '*', 'italic text', 'Italic')}
+                  >
                     <Italic className="w-4 h-4" />
                   </Button>
-                  <Button variant="ghost" size="sm" className="text-amber-700 hover:bg-amber-100">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-amber-700 hover:bg-amber-100"
+                    onClick={() =>
+                      applyTextFormat('<u>', '</u>', 'underlined text', 'Underline')
+                    }
+                  >
                     <Underline className="w-4 h-4" />
                   </Button>
                   <div className="w-px h-6 bg-amber-200 mx-1" />
@@ -287,7 +380,7 @@ export const DiaryEditor = () => {
                           <button
                             key={f.value}
                             onClick={() => {
-                              setSelectedFont(f.value);
+                              setCurrentFont(f.value);
                               setShowFontPicker(false);
                             }}
                             className={`w-full text-left px-3 py-2 rounded-lg hover:bg-amber-100 ${f.value}`}
@@ -313,11 +406,12 @@ export const DiaryEditor = () => {
 
                 {/* Content Textarea */}
                 <Textarea
+                  ref={contentRef}
                   value={content}
                   onChange={(e) => setContent(e.target.value)}
                   placeholder="Dear Diary, today I..."
-                  className={`flex-1 bg-transparent border-none resize-none text-amber-900 placeholder:text-amber-400 focus-visible:ring-0 leading-relaxed ${selectedFont} px-0`}
-                  style={{ minHeight: '300px' }}
+                  className="flex-1 resize-none border-none bg-transparent px-0 leading-relaxed text-amber-900 placeholder:text-amber-400 focus-visible:ring-0"
+                  style={{ minHeight: '300px', fontFamily: 'var(--editor-font-family)' }}
                 />
 
                 {/* Tags Input */}

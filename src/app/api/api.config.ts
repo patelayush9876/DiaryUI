@@ -34,9 +34,16 @@ API.interceptors.response.use(
       originalRequest._retry = true;
 
       try {
+        const refreshToken = tokenStorage.getRefreshToken();
+
+        if (!refreshToken) {
+          tokenStorage.removeToken();
+          return Promise.reject(error);
+        }
+
         const refreshResponse = await axios.post(
           `${API_BASE_URL}/auth/refresh`,
-          {},
+          { refreshToken },
           { withCredentials: true }
         );
 

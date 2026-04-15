@@ -48,26 +48,32 @@ export const MainLayout = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-yellow-50">
+    <div
+      className="min-h-screen bg-background text-foreground transition-colors"
+      style={{
+        backgroundImage:
+          'linear-gradient(to bottom right, var(--app-gradient-start), var(--app-gradient-middle), var(--app-gradient-end))',
+      }}
+    >
       {/* Sidebar */}
       <motion.aside
         initial={{ x: -100 }}
         animate={{ x: 0 }}
-        className="fixed left-0 top-0 h-full w-64 bg-white/80 backdrop-blur-lg border-r border-amber-200 shadow-xl z-50"
+        className="fixed left-0 top-0 z-50 h-full w-64 border-r border-border bg-card/80 shadow-xl backdrop-blur-lg"
       >
         <div className="p-6">
           {/* Logo */}
           <div className="flex items-center gap-3 mb-8">
-            <div className="w-10 h-10 bg-gradient-to-br from-amber-400 to-orange-500 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground shadow-lg">
               <Book className="w-6 h-6 text-white" />
             </div>
             <div>
-              <h2 className="font-serif text-lg text-amber-900">Dear Diary</h2>
+              <h2 className="font-serif text-lg text-foreground">Dear Diary</h2>
             </div>
           </div>
 
           {/* User info */}
-          <div className="mb-8 p-4 bg-gradient-to-r from-amber-100 to-orange-100 rounded-xl">
+          <div className="mb-8 rounded-xl bg-accent/70 p-4">
             <div className="flex items-center gap-3">
               <img
                 src={avatarUrl}
@@ -75,8 +81,8 @@ export const MainLayout = () => {
                 className="w-12 h-12 rounded-full border-2 border-white shadow"
               />
               <div>
-                <p className="font-serif text-amber-900">{displayName}</p>
-                <p className="text-xs text-amber-700">Keep writing...</p>
+                <p className="font-serif text-foreground">{displayName}</p>
+                <p className="text-xs text-muted-foreground">Keep writing...</p>
               </div>
             </div>
           </div>
@@ -91,10 +97,10 @@ export const MainLayout = () => {
                 <button
                   key={item.path}
                   onClick={() => navigate(item.path)}
-                  className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
+                  className={`flex w-full items-center gap-3 rounded-xl px-4 py-3 transition-all ${
                     isActive
-                      ? 'bg-gradient-to-r from-amber-400 to-orange-400 text-white shadow-lg'
-                      : 'text-amber-800 hover:bg-amber-100'
+                      ? 'bg-primary text-primary-foreground shadow-lg'
+                      : 'text-foreground hover:bg-accent'
                   }`}
                 >
                   <Icon className="w-5 h-5" />

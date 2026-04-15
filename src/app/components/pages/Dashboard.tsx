@@ -56,15 +56,15 @@ export const Dashboard = () => {
       >
         {/* Welcome Section */}
         <div className="mb-8">
-          <h1 className="text-4xl font-serif text-amber-900 mb-2">
+          <h1 className="mb-2 text-4xl font-serif text-foreground">
             {getGreeting()}, {user?.name}
           </h1>
-          <p className="text-amber-700">How are you feeling today?</p>
+          <p className="text-muted-foreground">How are you feeling today?</p>
         </div>
 
         {/* Mood Selector */}
-        <Card className="p-6 mb-6 bg-white/80 backdrop-blur-sm border-amber-200">
-          <h3 className="text-lg font-serif text-amber-900 mb-4">Today's Mood</h3>
+        <Card className="mb-6 border-border bg-card/80 p-6 backdrop-blur-sm">
+          <h3 className="mb-4 text-lg font-serif text-foreground">Today's Mood</h3>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-3">
             {(Object.keys(moodIcons) as Mood[]).map((mood) => {
               const { icon: Icon, color, bg } = moodIcons[mood];
@@ -78,7 +78,7 @@ export const Dashboard = () => {
                   whileTap={{ scale: 0.95 }}
                   className={`flex flex-col items-center gap-2 p-4 rounded-xl transition-all ${
                     isSelected
-                      ? 'bg-gradient-to-br from-amber-400 to-orange-400 text-white shadow-lg'
+                      ? 'bg-primary text-primary-foreground shadow-lg'
                       : `${bg} hover:shadow-md`
                   }`}
                 >
@@ -132,31 +132,31 @@ export const Dashboard = () => {
 
         {/* Stats */}
         <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200">
+          <Card className="border-border bg-card/80 p-6 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-700 text-sm">Total Entries</p>
-                <p className="text-3xl font-serif text-amber-900">{entries.length}</p>
+                <p className="text-sm text-muted-foreground">Total Entries</p>
+                <p className="text-3xl font-serif text-foreground">{entries.length}</p>
               </div>
-              <PenLine className="w-10 h-10 text-amber-400" />
+              <PenLine className="h-10 w-10 text-primary" />
             </div>
           </Card>
 
-          <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200">
+          <Card className="border-border bg-card/80 p-6 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-700 text-sm">Writing Streak</p>
-                <p className="text-3xl font-serif text-amber-900">{getStreak()} days</p>
+                <p className="text-sm text-muted-foreground">Writing Streak</p>
+                <p className="text-3xl font-serif text-foreground">{getStreak()} days</p>
               </div>
               <TrendingUp className="w-10 h-10 text-green-400" />
             </div>
           </Card>
 
-          <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200">
+          <Card className="border-border bg-card/80 p-6 backdrop-blur-sm">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-amber-700 text-sm">This Month</p>
-                <p className="text-3xl font-serif text-amber-900">
+                <p className="text-sm text-muted-foreground">This Month</p>
+                <p className="text-3xl font-serif text-foreground">
                   {
                     entries.filter((e) => {
                       const entryMonth = new Date(e.date).getMonth();
@@ -172,8 +172,8 @@ export const Dashboard = () => {
 
         {/* Recent Entries */}
         {recentEntries.length > 0 && (
-          <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200">
-            <h3 className="text-xl font-serif text-amber-900 mb-4">Recent Entries</h3>
+          <Card className="border-border bg-card/80 p-6 backdrop-blur-sm">
+            <h3 className="mb-4 text-xl font-serif text-foreground">Recent Entries</h3>
             <div className="space-y-3">
               {recentEntries.map((entry) => {
                 const { icon: MoodIcon, color, bg } = moodIcons[entry.mood];
@@ -182,7 +182,7 @@ export const Dashboard = () => {
                   <motion.div
                     key={entry.id}
                     whileHover={{ x: 5 }}
-                    className="flex items-center gap-4 p-4 rounded-xl hover:bg-amber-50 transition-all cursor-pointer"
+                    className="flex cursor-pointer items-center gap-4 rounded-xl p-4 transition-all hover:bg-accent/50"
                     onClick={() => navigate('/calendar')}
                   >
                     <div
@@ -191,8 +191,8 @@ export const Dashboard = () => {
                       <MoodIcon className={`w-5 h-5 ${color}`} />
                     </div>
                     <div className="flex-1">
-                      <h4 className="font-serif text-amber-900">{entry.title || 'Untitled'}</h4>
-                      <p className="text-sm text-amber-600">
+                      <h4 className="font-serif text-foreground">{entry.title || 'Untitled'}</h4>
+                      <p className="text-sm text-muted-foreground">
                         {new Date(entry.date).toLocaleDateString('en-US', {
                           month: 'long',
                           day: 'numeric',
@@ -205,12 +205,9 @@ export const Dashboard = () => {
               })}
             </div>
             {entries.length === 0 && (
-              <div className="text-center py-8 text-amber-600">
+              <div className="py-8 text-center text-muted-foreground">
                 <p className="mb-4">No entries yet. Start writing!</p>
-                <Button
-                  onClick={() => navigate('/write')}
-                  className="bg-gradient-to-r from-amber-500 to-orange-500"
-                >
+                <Button onClick={() => navigate('/write')} className="bg-primary text-primary-foreground">
                   Create Your First Entry
                 </Button>
               </div>

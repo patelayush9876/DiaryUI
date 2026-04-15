@@ -5,6 +5,9 @@ import {
   createDiaryEntry,
   deleteDiaryEntry,
   fetchDiaryEntries,
+  setCurrentCover as setCurrentCoverAction,
+  setCurrentFont as setCurrentFontAction,
+  setCurrentPageStyle as setCurrentPageStyleAction,
   setCurrentTheme as setCurrentThemeAction,
   setDiaryUser,
   updateDiaryEntry,
@@ -25,10 +28,16 @@ interface DiaryContextType {
   user: User | null;
   entries: DiaryEntry[];
   currentTheme: string;
+  currentFont: string;
+  currentCover: string;
+  currentPageStyle: string;
   loading: boolean;
   saving: boolean;
   error: string | null;
   setCurrentTheme: (theme: string) => void;
+  setCurrentFont: (font: string) => void;
+  setCurrentCover: (cover: string) => void;
+  setCurrentPageStyle: (pageStyle: string) => void;
   addEntry: (entry: CreateDiaryEntryPayload) => Promise<DiaryEntry>;
   updateEntry: (id: string, entry: UpdateDiaryEntryPayload) => Promise<DiaryEntry>;
   deleteEntry: (id: string) => Promise<void>;
@@ -43,6 +52,10 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
   const dispatch = useAppDispatch();
   const authUser = useAppSelector((state) => state.auth.user);
   const hasLoaded = useAppSelector((state) => state.diary.hasLoaded);
+  const currentTheme = useAppSelector((state) => state.diary.currentTheme);
+  const currentFont = useAppSelector((state) => state.diary.currentFont);
+  const currentCover = useAppSelector((state) => state.diary.currentCover);
+  const currentPageStyle = useAppSelector((state) => state.diary.currentPageStyle);
 
   useEffect(() => {
     if (authUser) {
@@ -70,6 +83,41 @@ export const DiaryProvider = ({ children }: { children: ReactNode }) => {
     }
   }, [authUser, hasLoaded, dispatch]);
 
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    const root = document.documentElement;
+    const supportedThemes = new Set(['vintage', 'dark', 'minimal', 'nature', 'sunset', 'ocean']);
+    const nextTheme = supportedThemes.has(currentTheme) ? currentTheme : 'vintage';
+
+    const supportedFonts = new Set(['font-sans', 'font-serif', 'font-handwriting', 'font-mono']);
+    const supportedCovers = new Set([
+      'leather-brown',
+      'red-velvet',
+      'navy-blue',
+      'forest-green',
+      'purple-night',
+      'black-elegant',
+    ]);
+    const supportedPageStyles = new Set([
+      'lined-paper',
+      'dotted-grid',
+      'blank-canvas',
+      'graph-paper',
+    ]);
+
+    root.dataset.theme = nextTheme;
+    root.dataset.fontStyle = supportedFonts.has(currentFont) ? currentFont : 'font-serif';
+    root.dataset.coverStyle = supportedCovers.has(currentCover) ? currentCover : 'leather-brown';
+    root.dataset.pageStyle = supportedPageStyles.has(currentPageStyle)
+      ? currentPageStyle
+      : 'lined-paper';
+    root.classList.toggle('dark', nextTheme === 'dark');
+    root.style.colorScheme = nextTheme === 'dark' ? 'dark' : 'light';
+  }, [currentCover, currentFont, currentPageStyle, currentTheme]);
+
   return <>{children}</>;
 };
 
@@ -78,6 +126,9 @@ export const useDiary = (): DiaryContextType => {
   const user = useAppSelector((state) => state.diary.user);
   const entries = useAppSelector((state) => state.diary.entries);
   const currentTheme = useAppSelector((state) => state.diary.currentTheme);
+  const currentFont = useAppSelector((state) => state.diary.currentFont);
+  const currentCover = useAppSelector((state) => state.diary.currentCover);
+  const currentPageStyle = useAppSelector((state) => state.diary.currentPageStyle);
   const loading = useAppSelector((state) => state.diary.loading);
   const saving = useAppSelector((state) => state.diary.saving);
   const error = useAppSelector((state) => state.diary.error);
@@ -86,11 +137,23 @@ export const useDiary = (): DiaryContextType => {
     user,
     entries,
     currentTheme,
+    currentFont,
+    currentCover,
+    currentPageStyle,
     loading,
     saving,
     error,
     setCurrentTheme: (theme: string) => {
       dispatch(setCurrentThemeAction(theme));
+    },
+    setCurrentFont: (font: string) => {
+      dispatch(setCurrentFontAction(font));
+    },
+    setCurrentCover: (cover: string) => {
+      dispatch(setCurrentCoverAction(cover));
+    },
+    setCurrentPageStyle: (pageStyle: string) => {
+      dispatch(setCurrentPageStyleAction(pageStyle));
     },
     addEntry: async (entry: CreateDiaryEntryPayload) => {
       return dispatch(createDiaryEntry(entry)).unwrap();

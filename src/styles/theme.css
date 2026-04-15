@@ -39,9 +39,151 @@
   --sidebar-accent-foreground: #92400e;
   --sidebar-border: #fed7aa;
   --sidebar-ring: #d97706;
+  --app-gradient-start: #fffbf0;
+  --app-gradient-middle: #fff2e2;
+  --app-gradient-end: #fef3c7;
+  --cover-start: #92400e;
+  --cover-end: #7c2d12;
+  --cover-spine: rgba(69, 26, 3, 0.7);
+  --paper-start: #fffbeb;
+  --paper-end: #fef3c7;
+  --page-line: rgba(217, 119, 6, 0.08);
 }
 
-.dark {
+:root[data-theme='minimal'] {
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-foreground: #0f172a;
+  --primary: #334155;
+  --primary-foreground: #ffffff;
+  --secondary: #e2e8f0;
+  --secondary-foreground: #1e293b;
+  --muted: #f1f5f9;
+  --muted-foreground: #475569;
+  --accent: #e2e8f0;
+  --accent-foreground: #1e293b;
+  --border: rgba(148, 163, 184, 0.35);
+  --input-background: #ffffff;
+  --switch-background: #cbd5e1;
+  --ring: #64748b;
+  --sidebar: #f8fafc;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #334155;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e2e8f0;
+  --sidebar-accent-foreground: #1e293b;
+  --sidebar-border: #cbd5e1;
+  --sidebar-ring: #64748b;
+  --app-gradient-start: #ffffff;
+  --app-gradient-middle: #f8fafc;
+  --app-gradient-end: #e2e8f0;
+  --paper-start: #ffffff;
+  --paper-end: #f8fafc;
+  --page-line: rgba(100, 116, 139, 0.08);
+}
+
+:root[data-theme='nature'] {
+  --background: #f2fbf4;
+  --foreground: #163824;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-foreground: #163824;
+  --primary: #2f855a;
+  --primary-foreground: #ffffff;
+  --secondary: #dcfce7;
+  --secondary-foreground: #166534;
+  --muted: #e7f8ed;
+  --muted-foreground: #2f6b45;
+  --accent: #bbf7d0;
+  --accent-foreground: #166534;
+  --border: rgba(34, 197, 94, 0.2);
+  --input-background: #ecfdf5;
+  --switch-background: #bbf7d0;
+  --ring: #22c55e;
+  --sidebar: #f2fbf4;
+  --sidebar-foreground: #163824;
+  --sidebar-primary: #2f855a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #dcfce7;
+  --sidebar-accent-foreground: #166534;
+  --sidebar-border: #bbf7d0;
+  --sidebar-ring: #22c55e;
+  --app-gradient-start: #f0fdf4;
+  --app-gradient-middle: #dcfce7;
+  --app-gradient-end: #ccfbf1;
+  --paper-start: #f7fee7;
+  --paper-end: #dcfce7;
+  --page-line: rgba(34, 197, 94, 0.1);
+}
+
+:root[data-theme='sunset'] {
+  --background: #fff7f5;
+  --foreground: #5b2131;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-foreground: #5b2131;
+  --primary: #f97316;
+  --primary-foreground: #ffffff;
+  --secondary: #ffe4e6;
+  --secondary-foreground: #9f1239;
+  --muted: #fff1f2;
+  --muted-foreground: #9f4560;
+  --accent: #fed7aa;
+  --accent-foreground: #9a3412;
+  --border: rgba(249, 115, 22, 0.22);
+  --input-background: #fff7ed;
+  --switch-background: #fdba74;
+  --ring: #fb7185;
+  --sidebar: #fff7f5;
+  --sidebar-foreground: #5b2131;
+  --sidebar-primary: #f97316;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ffe4e6;
+  --sidebar-accent-foreground: #9f1239;
+  --sidebar-border: #fed7aa;
+  --sidebar-ring: #fb7185;
+  --app-gradient-start: #fff1f2;
+  --app-gradient-middle: #ffe4e6;
+  --app-gradient-end: #ffedd5;
+  --paper-start: #fff7ed;
+  --paper-end: #ffe4e6;
+  --page-line: rgba(251, 113, 133, 0.1);
+}
+
+:root[data-theme='ocean'] {
+  --background: #f3fbff;
+  --foreground: #12324a;
+  --card: rgba(255, 255, 255, 0.88);
+  --card-foreground: #12324a;
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: #dbeafe;
+  --secondary-foreground: #1d4ed8;
+  --muted: #e0f2fe;
+  --muted-foreground: #31607d;
+  --accent: #bae6fd;
+  --accent-foreground: #075985;
+  --border: rgba(14, 165, 233, 0.22);
+  --input-background: #eff6ff;
+  --switch-background: #93c5fd;
+  --ring: #38bdf8;
+  --sidebar: #f3fbff;
+  --sidebar-foreground: #12324a;
+  --sidebar-primary: #0284c7;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #dbeafe;
+  --sidebar-accent-foreground: #1d4ed8;
+  --sidebar-border: #bae6fd;
+  --sidebar-ring: #38bdf8;
+  --app-gradient-start: #ecfeff;
+  --app-gradient-middle: #dbeafe;
+  --app-gradient-end: #e0f2fe;
+  --paper-start: #f0f9ff;
+  --paper-end: #dbeafe;
+  --page-line: rgba(56, 189, 248, 0.1);
+}
+
+:root[data-theme='dark'],
+:root.dark {
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.145 0 0);
@@ -76,6 +218,73 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(0.269 0 0);
   --sidebar-ring: oklch(0.439 0 0);
+  --input-background: oklch(0.205 0 0);
+  --switch-background: oklch(0.269 0 0);
+  --app-gradient-start: #0f172a;
+  --app-gradient-middle: #111827;
+  --app-gradient-end: #1e1b4b;
+  --paper-start: #111827;
+  --paper-end: #1f2937;
+  --page-line: rgba(148, 163, 184, 0.12);
+}
+
+:root[data-cover-style='red-velvet'] {
+  --cover-start: #be123c;
+  --cover-end: #881337;
+  --cover-spine: rgba(76, 5, 25, 0.75);
+}
+
+:root[data-cover-style='navy-blue'] {
+  --cover-start: #1d4ed8;
+  --cover-end: #312e81;
+  --cover-spine: rgba(30, 41, 59, 0.78);
+}
+
+:root[data-cover-style='forest-green'] {
+  --cover-start: #15803d;
+  --cover-end: #14532d;
+  --cover-spine: rgba(20, 83, 45, 0.75);
+}
+
+:root[data-cover-style='purple-night'] {
+  --cover-start: #7e22ce;
+  --cover-end: #9d174d;
+  --cover-spine: rgba(76, 29, 149, 0.78);
+}
+
+:root[data-cover-style='black-elegant'] {
+  --cover-start: #111827;
+  --cover-end: #020617;
+  --cover-spine: rgba(0, 0, 0, 0.8);
+}
+
+:root[data-page-style='dotted-grid'] {
+  --page-pattern: radial-gradient(circle, var(--page-line) 1.2px, transparent 1.2px);
+  --page-pattern-size: 18px 18px;
+}
+
+:root[data-page-style='blank-canvas'] {
+  --page-pattern: none;
+  --page-pattern-size: auto;
+}
+
+:root[data-page-style='graph-paper'] {
+  --page-pattern:
+    linear-gradient(var(--page-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--page-line) 1px, transparent 1px);
+  --page-pattern-size: 28px 28px;
+}
+
+:root,
+:root[data-page-style='lined-paper'] {
+  --page-pattern:
+    repeating-linear-gradient(
+      transparent,
+      transparent 30px,
+      var(--page-line) 30px,
+      var(--page-line) 31px
+    );
+  --page-pattern-size: auto;
 }
 
 @theme inline {
@@ -126,6 +335,14 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: var(--app-font-family);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--app-title-font-family);
   }
 
   /**

@@ -5,6 +5,7 @@ import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
 import { ChevronLeft, ChevronRight, Calendar as CalendarIcon, Tag } from 'lucide-react';
+import { sanitizeDiaryHtml } from '../../utils/diary-content';
 
 export const CalendarView = () => {
   const { entries } = useDiary();
@@ -177,9 +178,10 @@ export const CalendarView = () => {
                     </Badge>
                   </div>
                   <div className="prose prose-sm max-w-none">
-                    <p className="text-amber-900 leading-relaxed whitespace-pre-wrap">
-                      {selectedEntryData.content}
-                    </p>
+                    <div
+                      className="text-amber-900 leading-relaxed"
+                      dangerouslySetInnerHTML={{ __html: sanitizeDiaryHtml(selectedEntryData.content) }}
+                    />
                   </div>
                   {selectedEntryData.tags && selectedEntryData.tags.length > 0 && (
                     <div className="mt-4 pt-4 border-t border-amber-200">

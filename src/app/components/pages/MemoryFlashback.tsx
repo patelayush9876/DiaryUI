@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Card } from '../ui/card';
 import { Button } from '../ui/button';
 import { Sparkles, Heart, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
+import { sanitizeDiaryHtml } from '../../utils/diary-content';
 
 export const MemoryFlashback = () => {
   const { entries } = useDiary();
@@ -157,9 +158,10 @@ export const MemoryFlashback = () => {
                       <h3 className="text-2xl font-serif text-purple-900">{currentMemory.title}</h3>
                     </div>
                     <div className="prose prose-lg max-w-none">
-                      <p className="text-purple-900 leading-relaxed whitespace-pre-wrap">
-                        {currentMemory.content}
-                      </p>
+                      <div
+                        className="text-purple-900 leading-relaxed"
+                        dangerouslySetInnerHTML={{ __html: sanitizeDiaryHtml(currentMemory.content) }}
+                      />
                     </div>
                     {currentMemory.tags && currentMemory.tags.length > 0 && (
                       <div className="mt-6 pt-6 border-t border-purple-200">

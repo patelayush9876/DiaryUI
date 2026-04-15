@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { useDiary } from '../../context/DiaryContext';
 import { motion } from 'motion/react';
 import { Card } from '../ui/card';
@@ -96,9 +95,51 @@ const diaryCovers = [
   },
 ];
 
+const fontOptions = [
+  {
+    id: 'font-sans',
+    name: 'Modern Sans',
+    className: 'font-sans',
+    sample: 'The quick brown fox jumps over the lazy dog.',
+  },
+  {
+    id: 'font-serif',
+    name: 'Classic Serif',
+    className: 'font-serif',
+    sample: 'The quick brown fox jumps over the lazy dog.',
+  },
+  {
+    id: 'font-handwriting',
+    name: 'Handwriting',
+    className: 'font-handwriting',
+    sample: 'The quick brown fox jumps over the lazy dog.',
+  },
+  {
+    id: 'font-mono',
+    name: 'Typewriter',
+    className: 'font-mono',
+    sample: 'The quick brown fox jumps over the lazy dog.',
+  },
+];
+
+const pageStyles = [
+  { id: 'lined-paper', name: 'Lined Paper', icon: '📝' },
+  { id: 'dotted-grid', name: 'Dotted Grid', icon: '⋮' },
+  { id: 'blank-canvas', name: 'Blank Canvas', icon: '□' },
+  { id: 'graph-paper', name: 'Graph Paper', icon: '⊞' },
+];
+
 export const Themes = () => {
-  const { currentTheme, setCurrentTheme } = useDiary();
-  const [selectedCover, setSelectedCover] = useState('leather-brown');
+  const {
+    currentTheme,
+    currentFont,
+    currentCover,
+    currentPageStyle,
+    setCurrentTheme,
+    setCurrentFont,
+    setCurrentCover,
+    setCurrentPageStyle,
+  } = useDiary();
 
   const handleThemeChange = (themeId: string) => {
     setCurrentTheme(themeId);
@@ -106,8 +147,18 @@ export const Themes = () => {
   };
 
   const handleCoverChange = (coverId: string) => {
-    setSelectedCover(coverId);
+    setCurrentCover(coverId);
     toast.success('Diary cover updated!');
+  };
+
+  const handleFontChange = (fontId: string) => {
+    setCurrentFont(fontId);
+    toast.success('Writing font updated!');
+  };
+
+  const handlePageStyleChange = (styleId: string) => {
+    setCurrentPageStyle(styleId);
+    toast.success('Writing style updated!');
   };
 
   return (
@@ -118,13 +169,13 @@ export const Themes = () => {
         className="max-w-7xl mx-auto"
       >
         <div className="flex items-center gap-3 mb-8">
-          <Palette className="w-8 h-8 text-amber-600" />
-          <h1 className="text-4xl font-serif text-amber-900">Themes & Personalization</h1>
+          <Palette className="h-8 w-8 text-primary" />
+          <h1 className="text-4xl font-serif text-foreground">Themes & Personalization</h1>
         </div>
 
         {/* App Themes */}
-        <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200 mb-8">
-          <h3 className="text-2xl font-serif text-amber-900 mb-6">App Themes</h3>
+        <Card className="mb-8 border-border bg-card/80 p-6 backdrop-blur-sm">
+          <h3 className="mb-6 text-2xl font-serif text-foreground">App Themes</h3>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {themes.map((theme) => (
               <motion.div
@@ -133,7 +184,7 @@ export const Themes = () => {
                 animate={{ opacity: 1, scale: 1 }}
                 whileHover={{ scale: 1.02 }}
                 className={`relative rounded-2xl overflow-hidden cursor-pointer transition-all ${
-                  currentTheme === theme.id ? 'ring-4 ring-amber-400 ring-offset-2' : ''
+                  currentTheme === theme.id ? 'ring-4 ring-primary ring-offset-2' : ''
                 }`}
                 onClick={() => handleThemeChange(theme.id)}
               >
@@ -163,10 +214,10 @@ export const Themes = () => {
         </Card>
 
         {/* Diary Cover Selection */}
-        <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200 mb-8">
+        <Card className="mb-8 border-border bg-card/80 p-6 backdrop-blur-sm">
           <div className="flex items-center gap-3 mb-6">
-            <Book className="w-6 h-6 text-amber-600" />
-            <h3 className="text-2xl font-serif text-amber-900">Diary Cover</h3>
+            <Book className="h-6 w-6 text-primary" />
+            <h3 className="text-2xl font-serif text-foreground">Diary Cover</h3>
           </div>
           <div className="grid grid-cols-3 md:grid-cols-6 gap-4">
             {diaryCovers.map((cover) => (
@@ -176,14 +227,14 @@ export const Themes = () => {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className={`relative aspect-[3/4] rounded-xl ${cover.color} shadow-lg transition-all ${
-                  selectedCover === cover.id ? 'ring-4 ring-amber-400 ring-offset-2' : ''
+                  currentCover === cover.id ? 'ring-4 ring-primary ring-offset-2' : ''
                 }`}
               >
                 {/* Book spine effect */}
                 <div className="absolute left-2 top-4 bottom-4 w-1 bg-black/20 rounded-full" />
 
                 {/* Check mark */}
-                {selectedCover === cover.id && (
+                {currentCover === cover.id && (
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-lg">
                       <Check className="w-6 h-6 text-green-600" />
@@ -201,63 +252,55 @@ export const Themes = () => {
         </Card>
 
         {/* Font & Writing Style */}
-        <Card className="p-6 bg-white/80 backdrop-blur-sm border-amber-200">
-          <h3 className="text-2xl font-serif text-amber-900 mb-6">Font & Writing Style</h3>
+        <Card className="border-border bg-card/80 p-6 backdrop-blur-sm">
+          <h3 className="mb-6 text-2xl font-serif text-foreground">Font & Writing Style</h3>
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <h4 className="text-lg font-serif text-amber-800 mb-4">Font Styles</h4>
+              <h4 className="mb-4 text-lg font-serif text-foreground">Font Styles</h4>
               <div className="space-y-3">
-                {[
-                  {
-                    name: 'Modern Sans',
-                    class: 'font-sans',
-                    sample: 'The quick brown fox jumps over the lazy dog.',
-                  },
-                  {
-                    name: 'Classic Serif',
-                    class: 'font-serif',
-                    sample: 'The quick brown fox jumps over the lazy dog.',
-                  },
-                  {
-                    name: 'Handwriting',
-                    class: 'font-handwriting',
-                    sample: 'The quick brown fox jumps over the lazy dog.',
-                  },
-                  {
-                    name: 'Typewriter',
-                    class: 'font-mono',
-                    sample: 'The quick brown fox jumps over the lazy dog.',
-                  },
-                ].map((font) => (
-                  <div
-                    key={font.name}
-                    className="p-4 bg-amber-50 rounded-xl hover:bg-amber-100 transition-all cursor-pointer border border-amber-200"
+                {fontOptions.map((font) => (
+                  <button
+                    key={font.id}
+                    type="button"
+                    onClick={() => handleFontChange(font.id)}
+                    className={`w-full cursor-pointer rounded-xl border p-4 text-left transition-all ${
+                      currentFont === font.id
+                        ? 'border-primary bg-accent shadow-sm'
+                        : 'border-border bg-secondary/60 hover:bg-accent/70'
+                    }`}
                   >
-                    <p className="text-sm text-amber-700 mb-2">{font.name}</p>
-                    <p className={`${font.class} text-amber-900`}>{font.sample}</p>
-                  </div>
+                    <p className="mb-2 text-sm text-muted-foreground">{font.name}</p>
+                    <div className="flex items-center justify-between gap-3">
+                      <p className={`${font.className} text-foreground`}>{font.sample}</p>
+                      {currentFont === font.id && <Check className="h-5 w-5 text-primary" />}
+                    </div>
+                  </button>
                 ))}
               </div>
             </div>
 
             <div>
-              <h4 className="text-lg font-serif text-amber-800 mb-4">Page Styles</h4>
+              <h4 className="mb-4 text-lg font-serif text-foreground">Page Styles</h4>
               <div className="space-y-3">
-                {[
-                  { name: 'Lined Paper', icon: '📝' },
-                  { name: 'Dotted Grid', icon: '⋮' },
-                  { name: 'Blank Canvas', icon: '□' },
-                  { name: 'Graph Paper', icon: '⊞' },
-                ].map((style) => (
-                  <div
-                    key={style.name}
-                    className="p-4 bg-amber-50 rounded-xl hover:bg-amber-100 transition-all cursor-pointer border border-amber-200"
+                {pageStyles.map((style) => (
+                  <button
+                    key={style.id}
+                    type="button"
+                    onClick={() => handlePageStyleChange(style.id)}
+                    className={`w-full cursor-pointer rounded-xl border p-4 text-left transition-all ${
+                      currentPageStyle === style.id
+                        ? 'border-primary bg-accent shadow-sm'
+                        : 'border-border bg-secondary/60 hover:bg-accent/70'
+                    }`}
                   >
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{style.icon}</span>
-                      <span className="text-amber-900">{style.name}</span>
+                      <span className="text-foreground">{style.name}</span>
+                      {currentPageStyle === style.id && (
+                        <Check className="ml-auto h-5 w-5 text-primary" />
+                      )}
                     </div>
-                  </div>
+                  </button>
                 ))}
               </div>
             </div>
