@@ -34,6 +34,6 @@ export default defineConfig({
   assetsInclude: ['**/*.svg', '**/*.csv'],
 
   define: {
-    API_BASE_URL: JSON.stringify('http://localhost:5001/api/v1'),
-  },
+  API_BASE_URL: JSON.stringify('/api/v1'),
+},
 });
